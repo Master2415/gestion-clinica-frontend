@@ -1,0 +1,52 @@
+<div class="dashboard">
+    <h2>Dashboard</h2>
+
+    <div *ngIf="isLoading" class="loading">Cargando estadísticas...</div>
+
+    <div *ngIf="!isLoading" class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">👨‍⚕️</div>
+            <div class="stat-content">
+                <h3>Médicos</h3>
+                <p class="stat-number">{{ totalMedicos }}</p>
+            </div>
+            <a routerLink="/admin/medicos" class="stat-link">Ver todos →</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+                <h3>PQRS</h3>
+                <p class="stat-number">{{ totalPqrs }}</p>
+            </div>
+            <a routerLink="/admin/pqrs" class="stat-link">Ver todos →</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-content">
+                <h3>Citas</h3>
+                <p class="stat-number">{{ totalCitas }}</p>
+            </div>
+            <a routerLink="/admin/citas" class="stat-link">Ver todas →</a>
+        </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="quick-actions">
+        <h3>Acciones Rápidas</h3>
+        <div class="actions-grid">
+            <a routerLink="/admin/medicos/crear" class="action-btn">
+                <span class="action-icon">➕</span>
+                <span>Crear Médico</span>
+            </a>
+            <a routerLink="/admin/medicos" class="action-btn">
+                <span class="action-icon">📋</span>
+                <span>Ver Médicos</span>
+            </a>
+            <a routerLink="/admin/pqrs" class="action-btn">
+                <span class="action-icon">✉️</span>
+                <span>Ver PQRS</span>
+            </a>
+        </div>
+    </div>
+</div>

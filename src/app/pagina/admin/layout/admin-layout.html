@@ -1,0 +1,47 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.sidebar-collapsed]="!isSidebarOpen">
+    <div class="sidebar-header">
+      <h2 *ngIf="isSidebarOpen">Admin Panel</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <span>☰</span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="icon">📊</span>
+        <span *ngIf="isSidebarOpen" class="label">Dashboard</span>
+      </a>
+      <a routerLink="/admin/medicos" routerLinkActive="active" class="nav-item">
+        <span class="icon">👨‍⚕️</span>
+        <span *ngIf="isSidebarOpen" class="label">Médicos</span>
+      </a>
+      <a routerLink="/admin/pqrs" routerLinkActive="active" class="nav-item">
+        <span class="icon">💬</span>
+        <span *ngIf="isSidebarOpen" class="label">PQRS</span>
+      </a>
+      <a routerLink="/admin/citas" routerLinkActive="active" class="nav-item">
+        <span class="icon">📅</span>
+        <span *ngIf="isSidebarOpen" class="label">Citas</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Toolbar -->
+    <header class="toolbar">
+      <h1>Panel de Administración</h1>
+      <div class="toolbar-actions">
+        <span class="admin-name">{{ adminName }}</span>
+        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
