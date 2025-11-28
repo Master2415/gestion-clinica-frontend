@@ -4,48 +4,60 @@ import { RouterLink } from '@angular/router';
 import { AdministradorService } from '../../../servicios/administrador.service';
 
 @Component({
-    selector: 'app-dashboard',
-    imports: [CommonModule, RouterLink],
-    templateUrl: './dashboard.html',
-    styleUrl: './dashboard.css',
+  selector: 'app-dashboard',
+  imports: [CommonModule, RouterLink],
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
+  totalMedicos = 0;
+  totalPqrs = 0;
+  totalCitas = 0;
+  isLoading = true;
 
-    totalMedicos = 0;
-    totalPqrs = 0;
-    totalCitas = 0;
-    isLoading = true;
+  constructor(private adminService: AdministradorService) {}
 
-    constructor(private adminService: AdministradorService) { }
+  ngOnInit(): void {
+    this.loadStatistics();
+  }
 
-    ngOnInit(): void {
-        this.loadStatistics();
-    }
+  loadStatistics(): void {
+    this.adminService.listarMedicos().subscribe({
+      next: (response) => {
+        console.log('Respuesta listarMedicos:', response);
+        if (response.respuesta) {
+          this.totalMedicos = response.respuesta.length;
+        }
+      },
+      error: (err) => {
+        console.error('Error listarMedicos:', err);
+      },
+    });
 
-    loadStatistics(): void {
-        this.adminService.listarMedicos().subscribe({
-            next: (response) => {
-                if (response.respuesta) {
-                    this.totalMedicos = response.respuesta.length;
-                }
-            }
-        });
+    this.adminService.listarPQRS().subscribe({
+      next: (response) => {
+        console.log('Respuesta listarPQRS:', response);
+        if (response.respuesta) {
+          this.totalPqrs = response.respuesta.length;
+        }
+      },
+      error: (err) => {
+        console.error('Error listarPQRS:', err);
+      },
+    });
 
-        this.adminService.listarPQRS().subscribe({
-            next: (response) => {
-                if (response.respuesta) {
-                    this.totalPqrs = response.respuesta.length;
-                }
-            }
-        });
-
-        this.adminService.listarCitas().subscribe({
-            next: (response) => {
-                if (response.respuesta) {
-                    this.totalCitas = response.respuesta.length;
-                }
-                this.isLoading = false;
-            }
-        });
-    }
+    this.adminService.listarCitas().subscribe({
+      next: (response) => {
+        console.log('Respuesta listarCitas:', response);
+        if (response.respuesta) {
+          this.totalCitas = response.respuesta.length;
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error listarCitas:', err);
+        this.isLoading = false;
+      },
+    });
+  }
 }
