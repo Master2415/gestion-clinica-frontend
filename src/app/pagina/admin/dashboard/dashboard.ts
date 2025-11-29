@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdministradorService } from '../../../servicios/administrador.service';
+import { TokenService } from '../../../servicios/token';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +15,16 @@ export class Dashboard implements OnInit {
   totalPqrs = 0;
   totalCitas = 0;
   isLoading = true;
+  userName = '';
 
-  constructor(private adminService: AdministradorService) {}
+  constructor(
+    private adminService: AdministradorService,
+    private tokenService: TokenService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this.userName = this.tokenService.getNombre();
     this.loadStatistics();
   }
 
@@ -27,6 +34,7 @@ export class Dashboard implements OnInit {
         console.log('Respuesta listarMedicos:', response);
         if (response.respuesta) {
           this.totalMedicos = response.respuesta.length;
+          this.cd.detectChanges();
         }
       },
       error: (err) => {
@@ -39,6 +47,7 @@ export class Dashboard implements OnInit {
         console.log('Respuesta listarPQRS:', response);
         if (response.respuesta) {
           this.totalPqrs = response.respuesta.length;
+          this.cd.detectChanges();
         }
       },
       error: (err) => {
@@ -53,10 +62,12 @@ export class Dashboard implements OnInit {
           this.totalCitas = response.respuesta.length;
         }
         this.isLoading = false;
+        this.cd.detectChanges();
       },
       error: (err) => {
         console.error('Error listarCitas:', err);
         this.isLoading = false;
+        this.cd.detectChanges();
       },
     });
   }

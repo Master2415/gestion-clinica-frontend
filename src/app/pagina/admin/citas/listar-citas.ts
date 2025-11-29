@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { AdministradorService } from '../../../servicios/administrador.service';
 import { CitaDTOAdmin } from '../../../modelo/cita-dto-admin';
 
 @Component({
     selector: 'app-listar-citas',
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule],
     template: `
     <div class="citas-page">
       <h2>Citas Programadas</h2>
@@ -31,11 +30,11 @@ import { CitaDTOAdmin } from '../../../modelo/cita-dto-admin';
           </thead>
           <tbody>
             <tr *ngFor="let cita of citas">
-              <td>{{ cita.codigo }}</td>
-              <td>{{ cita.paciente }}</td>
-              <td>{{ cita.medico }}</td>
+              <td>{{ cita.codigoCita }}</td>
+              <td>{{ cita.nombrePaciente }}</td>
+              <td>{{ cita.nombreMedico }}</td>
               <td>{{ cita.fecha }}</td>
-              <td>{{ cita.hora }}</td>
+              <td>{{ cita.fecha | date:'shortTime' }}</td>
               <td>{{ cita.motivo }}</td>
             </tr>
           </tbody>
@@ -57,18 +56,24 @@ export class ListarCitas implements OnInit {
     citas: CitaDTOAdmin[] = [];
     isLoading = true;
 
-    constructor(private adminService: AdministradorService) { }
+    constructor(
+        private adminService: AdministradorService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
+        this.isLoading = true;
         this.adminService.listarCitas().subscribe({
             next: (response) => {
                 if (response.respuesta) {
                     this.citas = response.respuesta;
                 }
                 this.isLoading = false;
+                this.cd.detectChanges();
             },
             error: (error) => {
                 this.isLoading = false;
+                this.cd.detectChanges();
             }
         });
     }

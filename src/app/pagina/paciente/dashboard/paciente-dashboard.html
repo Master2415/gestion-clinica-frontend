@@ -1,0 +1,68 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Bienvenido, {{ userName }}</h1>
+    <p>Gestiona tus citas médicas y consulta tu historial</p>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <div class="statistics-grid" *ngIf="!isLoading">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalCitas }}</h3>
+        <p>Total de Citas</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon pending">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ citasPendientes }}</h3>
+        <p>Citas Pendientes</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon history">
+        <i class="fas fa-file-medical-alt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ registrosMedicos }}</h3>
+        <p>Registros Médicos</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions-section" *ngIf="!isLoading">
+    <h2>Acciones Rápidas</h2>
+    <div class="actions-grid">
+      <button class="action-btn" (click)="navigateTo('agendar-cita')">
+        <i class="fas fa-calendar-plus"></i>
+        <span>Agendar Nueva Cita</span>
+      </button>
+
+      <button class="action-btn" (click)="navigateTo('mis-citas')">
+        <i class="fas fa-list"></i>
+        <span>Ver Mis Citas</span>
+      </button>
+
+      <button class="action-btn" (click)="navigateTo('historial')">
+        <i class="fas fa-history"></i>
+        <span>Ver Historial Médico</span>
+      </button>
+
+      <button class="action-btn" (click)="navigateTo('crear-pqrs')">
+        <i class="fas fa-comment-medical"></i>
+        <span>Crear PQRS</span>
+      </button>
+    </div>
+  </div>
+</div>

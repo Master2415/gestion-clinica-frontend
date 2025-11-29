@@ -30,4 +30,34 @@ export class TokenService {
     this.removeToken();
     this.router.navigate(['/login']);
   }
+
+  // Decode JWT token
+  private decodeToken(): any {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      return JSON.parse(decodedPayload);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  getRol(): string {
+    const decoded = this.decodeToken();
+    return decoded?.rol || '';
+  }
+
+  getCodigo(): number {
+    const decoded = this.decodeToken();
+    return decoded?.id || 0;
+  }
+
+  getNombre(): string {
+    const decoded = this.decodeToken();
+    return decoded?.sub || '';
+  }
 }

@@ -1,0 +1,43 @@
+<div class="dashboard">
+    <h2>Bienvenido, Dr. {{ userName }}</h2>
+
+    <div *ngIf="isLoading" class="loading">Cargando estadísticas...</div>
+
+    <div *ngIf="!isLoading" class="stats-grid">
+        <div class="stat-card pending">
+            <div class="stat-icon">📋</div>
+            <div class="stat-content">
+                <h3>Citas Pendientes</h3>
+                <p class="stat-number">{{ totalPendientes }}</p>
+            </div>
+            <a routerLink="/medico/citas-pendientes" class="stat-link">Ver todas →</a>
+        </div>
+
+        <div class="stat-card completed">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <h3>Citas Realizadas</h3>
+                <p class="stat-number">{{ totalRealizadas }}</p>
+            </div>
+            <a routerLink="/medico/historial" class="stat-link">Ver historial →</a>
+        </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="quick-actions">
+        <h3>Acciones Rápidas</h3>
+        <div class="actions-grid">
+            <a routerLink="/medico/citas-pendientes" class="action-btn">
+                <span class="action-icon">👨‍⚕️</span>
+                <span>Atender Pacientes</span>
+            </a>
+            <a routerLink="/medico/historial" class="action-btn">
+                <span class="action-icon">📚</span>
+                <span>Ver Historial</span>
+            </a>
+            <a routerLink="/medico/agenda" class="action-btn">
+                <span class="action-icon">📅</span>
+                <span>Gestionar Agenda</span>
+            </a>
+        </div>
+    </div>
+</div>

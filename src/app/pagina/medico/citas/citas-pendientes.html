@@ -1,0 +1,43 @@
+<div class="citas-page">
+    <div class="page-header">
+        <h2>Citas Pendientes</h2>
+        <a routerLink="/medico/dashboard" class="btn-secondary">← Volver al Dashboard</a>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">Cargando citas...</div>
+
+    <div *ngIf="!isLoading && citas.length === 0" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <p>No hay citas pendientes</p>
+    </div>
+
+    <div *ngIf="!isLoading && citas.length > 0" class="citas-grid">
+        <div *ngFor="let cita of citas" class="cita-card">
+            <div class="cita-header">
+                <h3>{{ cita.nombrePaciente }}</h3>
+                <span class="cita-badge">Pendiente</span>
+            </div>
+            <div class="cita-body">
+                <div class="cita-info">
+                    <span class="info-label">Cédula:</span>
+                    <span class="info-value">{{ cita.cedulaPaciente }}</span>
+                </div>
+                <div class="cita-info">
+                    <span class="info-label">Fecha:</span>
+                    <span class="info-value">{{ cita.fechaCita | date:'medium' }}</span>
+                </div>
+                <div class="cita-info">
+                    <span class="info-label">Motivo:</span>
+                    <span class="info-value">{{ cita.motivo }}</span>
+                </div>
+            </div>
+            <div class="cita-actions">
+                <a [routerLink]="['/medico/atender-cita', cita.codigoCita]" class="btn-primary">
+                    Atender Paciente
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+</div>

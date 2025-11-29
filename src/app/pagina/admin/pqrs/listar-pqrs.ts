@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdministradorService } from '../../../servicios/administrador.service';
@@ -33,8 +33,8 @@ import { ItemPqrsAdminDTO } from '../../../modelo/item-pqrs-admin-dto';
             <tr *ngFor="let item of pqrs">
               <td>{{ item.codigo }}</td>
               <td>{{ item.nombrePaciente }}</td>
-              <td>{{ item.fechaCreacion }}</td>
-              <td><span class="badge" [class.badge-pending]="item.estado !== 'RESUELTO'">{{ item.estado }}</span></td>
+              <td>{{ item.fecha }}</td>
+              <td><span class="badge" [class.badge-pending]="item.estadoPqrs.estado !== 'RESUELTO'">{{ item.estadoPqrs.estado }}</span></td>
               <td>{{ item.motivo }}</td>
               <td>
                 <a [routerLink]="['/admin/pqrs', item.codigo]" class="btn-sm btn-info">Ver Detalle</a>
@@ -64,18 +64,24 @@ export class ListarPqrs implements OnInit {
     pqrs: ItemPqrsAdminDTO[] = [];
     isLoading = true;
 
-    constructor(private adminService: AdministradorService) { }
+    constructor(
+        private adminService: AdministradorService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
+        this.isLoading = true;
         this.adminService.listarPQRS().subscribe({
             next: (response) => {
                 if (response.respuesta) {
                     this.pqrs = response.respuesta;
                 }
                 this.isLoading = false;
+                this.cd.detectChanges();
             },
             error: (error) => {
                 this.isLoading = false;
+                this.cd.detectChanges();
             }
         });
     }

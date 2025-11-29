@@ -1,0 +1,51 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Agendar Nueva Cita</h1>
+    <p>Selecciona un especialista y horario para tu consulta</p>
+  </div>
+
+  <div class="form-card">
+    <div class="alert success" *ngIf="successMessage">
+      <i class="fas fa-check-circle"></i> {{ successMessage }}
+    </div>
+    
+    <div class="alert error" *ngIf="errorMessage">
+      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="agendar()">
+      <div class="form-group">
+        <label>Especialidad</label>
+        <select [(ngModel)]="selectedEspecialidad" name="especialidad" (change)="filterMedicos()" class="form-control">
+          <option value="">Todas las especialidades</option>
+          <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Médico</label>
+        <select [(ngModel)]="agendarCitaDTO.codigoMedico" name="medico" class="form-control" required>
+          <option [value]="0" disabled>Seleccione un médico</option>
+          <option *ngFor="let medico of medicosFiltrados" [value]="medico.codigo">
+            {{ medico.nombre }} - {{ medico.especialidad }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha y Hora</label>
+        <input type="datetime-local" [(ngModel)]="agendarCitaDTO.fechaCita" name="fecha" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Motivo de Consulta</label>
+        <textarea [(ngModel)]="agendarCitaDTO.motivo" name="motivo" rows="4" class="form-control" placeholder="Describe brevemente tus síntomas..." required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+        <span *ngIf="!isLoading">Agendar Cita</span>
+      </button>
+    </form>
+  </div>
+</div>

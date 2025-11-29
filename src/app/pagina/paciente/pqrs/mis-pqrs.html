@@ -1,0 +1,38 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Mis Solicitudes (PQRS)</h1>
+    <p>Seguimiento de tus peticiones, quejas y reclamos</p>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando solicitudes...</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && pqrs.length === 0">
+    <i class="fas fa-comments"></i>
+    <h3>No tienes solicitudes registradas</h3>
+    <p>Crea una nueva PQRS si necesitas ayuda</p>
+    <a routerLink="/paciente/crear-pqrs" class="create-btn">Crear Nueva PQRS</a>
+  </div>
+
+  <div class="pqrs-grid" *ngIf="!isLoading && pqrs.length > 0">
+    <div class="pqrs-card" *ngFor="let item of pqrs">
+      <div class="card-header">
+        <span class="fecha">{{ item.fechaCreacion | date:'medium' }}</span>
+        <span class="status-badge" [ngClass]="getStatusClass(item.estado)">
+          {{ item.estado }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <div class="type-badge">{{ item.tipoPqrs }}</div>
+        <p class="motivo">{{ item.motivo }}</p>
+      </div>
+
+      <div class="card-footer">
+        <span class="codigo">Radicado #{{ item.codigo }}</span>
+      </div>
+    </div>
+  </div>
+</div>

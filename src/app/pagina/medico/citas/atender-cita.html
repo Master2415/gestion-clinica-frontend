@@ -1,0 +1,39 @@
+<div class="atender-page">
+    <h2>Atender Paciente</h2>
+
+    <form (ngSubmit)="atenderCita()" class="atencion-form">
+        <div class="form-group">
+            <label>Síntomas *</label>
+            <textarea [(ngModel)]="registro.sintomas" name="sintomas" required rows="4" 
+                placeholder="Describa los síntomas del paciente..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Diagnóstico *</label>
+            <textarea [(ngModel)]="registro.diagnostico" name="diagnostico" required rows="4"
+                placeholder="Ingrese el diagnóstico..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Tratamiento *</label>
+            <textarea [(ngModel)]="registro.tratamiento" name="tratamiento" required rows="4"
+                placeholder="Indique el tratamiento a seguir..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Notas Médicas</label>
+            <textarea [(ngModel)]="registro.notasMedicas" name="notasMedicas" rows="3"
+                placeholder="Observaciones adicionales (opcional)..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" [disabled]="isLoading" class="btn-primary">
+                {{ isLoading ? 'Guardando...' : 'Completar Atención' }}
+            </button>
+            <button type="button" (click)="cancelar()" class="btn-secondary">Cancelar</button>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+    </form>
+</div>

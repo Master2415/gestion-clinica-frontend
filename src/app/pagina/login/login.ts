@@ -37,7 +37,18 @@ export class Login {
       next: (response) => {
         if (response.respuesta && response.respuesta.token) {
           this.tokenService.setToken(response.respuesta.token);
-          this.router.navigate(['/admin/dashboard']);
+          
+          // Redirect based on user role (backend returns lowercase)
+          const rol = this.tokenService.getRol().toLowerCase();
+          if (rol === 'medico') {
+            this.router.navigate(['/medico/dashboard']);
+          } else if (rol === 'admin') {
+            this.router.navigate(['/admin/dashboard']);
+          } else if (rol === 'paciente') {
+            this.router.navigate(['/paciente/dashboard']);
+          } else {
+            this.router.navigate(['/inicio']);
+          }
         } else {
           this.errorMessage = 'Error al iniciar sesión';
         }

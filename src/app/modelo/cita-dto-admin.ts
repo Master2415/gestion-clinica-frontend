@@ -1,8 +1,13 @@
+import { Especialidad } from "./especialidad";
+import { EstadoCita } from "./estado-cita";
+
 export class CitaDTOAdmin {
-    codigo: number = 0;
-    paciente: string = '';
-    medico: string = '';
+    codigoCita: number = 0;
+    cedulaPaciente: string = '';
+    nombrePaciente: string = '';
+    nombreMedico: string = '';
     fecha: string = '';
-    hora: string = '';
+    especializacion!: Especialidad;
+    estadoCita!: EstadoCita;
     motivo: string = '';
 }

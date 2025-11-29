@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdministradorService } from '../../../servicios/administrador.service';
@@ -38,10 +38,11 @@ import { ItemMedicoDTO } from '../../../modelo/item-medico-dto';
               <td>{{ medico.codigo }}</td>
               <td>{{ medico.cedula }}</td>
               <td>{{ medico.nombre }}</td>
-              <td>{{ medico.especialidad }}</td>
+              <td>{{ medico.especialidad.nombre }}</td>
               <td>{{ medico.telefono }}</td>
               <td>{{ medico.correo }}</td>
               <td>
+                <button class="btn-sm btn-primary" [routerLink]="['/admin/medicos/editar', medico.codigo]">Editar</button>
                 <button class="btn-sm btn-danger" (click)="eliminarMedico(medico.codigo)">Eliminar</button>
               </td>
             </tr>
@@ -62,7 +63,7 @@ import { ItemMedicoDTO } from '../../../modelo/item-medico-dto';
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #ecf0f1; }
     th { background: #f8f9fa; font-weight: 600; }
-    .btn-sm { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-sm { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; margin-right: 0.5rem; }
     .btn-danger { background: #e74c3c; color: white; }
     .btn-danger:hover { background: #c0392b; }
     .alert { padding: 1rem; margin-top: 1rem; border-radius: 6px; }
@@ -74,23 +75,29 @@ export class ListarMedicos implements OnInit {
     isLoading = true;
     errorMessage = '';
 
-    constructor(private adminService: AdministradorService) { }
+    constructor(
+        private adminService: AdministradorService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
         this.loadMedicos();
     }
 
     loadMedicos(): void {
+        this.isLoading = true;
         this.adminService.listarMedicos().subscribe({
             next: (response) => {
                 if (response.respuesta) {
                     this.medicos = response.respuesta;
                 }
                 this.isLoading = false;
+                this.cd.detectChanges();
             },
             error: (error) => {
                 this.errorMessage = 'Error al cargar médicos';
                 this.isLoading = false;
+                this.cd.detectChanges();
             }
         });
     }
@@ -103,6 +110,7 @@ export class ListarMedicos implements OnInit {
                 },
                 error: (error) => {
                     this.errorMessage = 'Error al eliminar médico';
+                    this.cd.detectChanges();
                 }
             });
         }
