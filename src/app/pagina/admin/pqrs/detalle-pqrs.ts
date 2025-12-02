@@ -6,6 +6,7 @@ import { AdministradorService } from '../../../servicios/administrador.service';
 import { InfoPQRSDTO } from '../../../modelo/info-pqrs-dto';
 import { RespuestaAdminDTO } from '../../../modelo/respuesta-admin-dto';
 import { TokenService } from '../../../servicios/token';
+import { ClinicaService } from '../../../servicios/clinica.service';
 
 @Component({
   selector: 'app-detalle-pqrs',
@@ -45,6 +46,23 @@ import { TokenService } from '../../../servicios/token';
             <label>Motivo:</label>
             <p>{{ pqrs.motivo }}</p>
           </div>
+        </div>
+        
+        <div class="status-change-section">
+          <label for="estadoSelector">Cambiar Estado:</label>
+          <div class="status-controls">
+            <select id="estadoSelector" [(ngModel)]="nuevoEstado" [disabled]="isCambiandoEstado">
+              <option *ngFor="let estado of estadosPqrs" [value]="estado.codigo">{{ estado.estado }}</option>
+            </select>
+            <button 
+              (click)="cambiarEstado()" 
+              [disabled]="!nuevoEstado || isCambiandoEstado"
+              class="btn-change-status">
+              {{ isCambiandoEstado ? 'Cambiando...' : 'Cambiar Estado' }}
+            </button>
+          </div>
+          <div *ngIf="statusChangeSuccess" class="alert alert-success">{{ statusChangeSuccess }}</div>
+          <div *ngIf="statusChangeError" class="alert alert-error">{{ statusChangeError }}</div>
         </div>
       </div>
 
@@ -298,6 +316,45 @@ import { TokenService } from '../../../servicios/token';
         color: #3c3;
         border: 1px solid #cfc;
       }
+      .status-change-section {
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-top: 1px solid #ecf0f1;
+      }
+      .status-change-section label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.75rem;
+      }
+      .status-controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      .status-controls select {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      .btn-change-status {
+        padding: 0.5rem 1.5rem;
+        background: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-change-status:hover:not(:disabled) {
+        background: #229954;
+      }
+      .btn-change-status:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+      }
     `,
   ],
 })
@@ -309,11 +366,17 @@ export class DetallePqrs implements OnInit {
   successMessage = '';
   errorMessage = '';
   codigoCuenta = 0;
+  nuevoEstado = '';
+  isCambiandoEstado = false;
+  statusChangeSuccess = '';
+  statusChangeError = '';
+  estadosPqrs: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private adminService: AdministradorService,
     private tokenService: TokenService,
+    private clinicaService: ClinicaService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -325,6 +388,23 @@ export class DetallePqrs implements OnInit {
 
     // Get admin account code from token
     this.codigoCuenta = this.tokenService.getCodigo();
+    
+    // Load states
+    this.loadEstadosPqrs();
+  }
+
+  loadEstadosPqrs(): void {
+    this.clinicaService.listarEstadosPqrs().subscribe({
+      next: (response) => {
+        if (response.respuesta) {
+          this.estadosPqrs = response.respuesta;
+        }
+        this.cd.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error cargando estados', error);
+      }
+    });
   }
 
   loadPqrs(codigo: number): void {
@@ -364,15 +444,18 @@ export class DetallePqrs implements OnInit {
         // Reload PQRS to show new message
         this.loadPqrs(this.pqrs!.codigo);
         this.isSubmitting = false;
+        this.cd.detectChanges();
 
         // Clear success message after 3 seconds
         setTimeout(() => {
           this.successMessage = '';
+          this.cd.detectChanges();
         }, 3000);
       },
       error: (error) => {
         this.errorMessage = error.error?.respuesta || 'Error al enviar respuesta';
         this.isSubmitting = false;
+        this.cd.detectChanges();
       },
     });
   }
@@ -380,5 +463,34 @@ export class DetallePqrs implements OnInit {
   isAdminMessage(codigoCuenta: number): boolean {
     // Simple check: if the message is from current admin account
     return codigoCuenta === this.codigoCuenta;
+  }
+
+  cambiarEstado(): void {
+    if (!this.pqrs || !this.nuevoEstado) return;
+    
+    this.isCambiandoEstado = true;
+    this.statusChangeError = '';
+    this.statusChangeSuccess = '';
+    
+    this.adminService.cambiarEstadoPQRS(this.pqrs.codigo, parseInt(this.nuevoEstado)).subscribe({
+      next: (response) => {
+        this.statusChangeSuccess = 'Estado actualizado exitosamente';
+        // Reload PQRS to show updated status
+        this.loadPqrs(this.pqrs!.codigo);
+        this.isCambiandoEstado = false;
+        this.cd.detectChanges();
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          this.statusChangeSuccess = '';
+          this.cd.detectChanges();
+        }, 3000);
+      },
+      error: (error) => {
+        this.statusChangeError = error.error?.respuesta || 'Error al cambiar estado';
+        this.isCambiandoEstado = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 }

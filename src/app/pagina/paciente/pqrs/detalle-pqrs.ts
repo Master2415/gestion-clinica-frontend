@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PacienteService } from '../../../servicios/paciente.service';
 import { TokenService } from '../../../servicios/token';
 import { InfoPQRSDTO } from '../../../modelo/info-pqrs-dto';
-import { RespuestaAdminDTO } from '../../../modelo/respuesta-admin-dto';
+import { RespuestaPacientePqrsDTO } from '../../../modelo/respuesta-paciente-pqrs-dto';
 
 @Component({
   selector: 'app-detalle-pqrs-paciente',
@@ -172,10 +172,11 @@ export class DetallePqrsPaciente implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const respuesta: RespuestaAdminDTO = {
-      codigoPQRS: this.pqrs.codigo,
-      codigoCuenta: this.codigoPaciente,
-      mensaje: this.nuevoMensaje.trim()
+    const respuesta: RespuestaPacientePqrsDTO = {
+      codigoPqrs: this.pqrs.codigo,
+      mensaje: this.nuevoMensaje.trim(),
+      respuestaAdmin: 0, // Not replying to specific admin message
+      codigoPaciente: this.codigoPaciente
     };
 
     this.pacienteService.responderPQRS(respuesta).subscribe({

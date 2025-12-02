@@ -63,4 +63,8 @@ export class ClinicaService {
                 })
             );
     }
+
+    listarEstadosPqrs(): Observable<MensajeDTO<any[]>> {
+        return this.http.get<MensajeDTO<any[]>>(`${this.clinicaURL}/lista-estados-pqrs`);
+    }
 }
