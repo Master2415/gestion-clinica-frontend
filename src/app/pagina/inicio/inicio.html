@@ -1,29 +1,30 @@
 <div class="inicio-container">
-    <div class="header">
-        <h1>Bienvenido, {{ userName }}</h1>
-        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+  <div class="header">
+    <h1>Bienvenido{{ isAuthenticated ? ', ' + userName : '' }}</h1>
+    <button *ngIf="!isAuthenticated" class="btn-login" (click)="goToLogin()">Iniciar Sesión</button>
+    <button *ngIf="isAuthenticated" class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <div class="content">
+    <div class="welcome-card">
+      <h2>Sistema de Gestión de Clínica</h2>
+      <p>Has iniciado sesión exitosamente en el sistema.</p>
+
+      <div class="info-section">
+        <h3>Funcionalidades Disponibles:</h3>
+        <ul>
+          <li>✓ Gestión de citas médicas</li>
+          <li>✓ Consulta de historial médico</li>
+          <li>✓ Gestión de PQRS</li>
+          <li>✓ Actualización de perfil</li>
+        </ul>
+      </div>
+
+      <div class="status-section">
+        <p class="status-text">
+          <strong>Estado:</strong> <span class="status-active">Sesión Activa</span>
+        </p>
+      </div>
     </div>
-
-    <div class="content">
-        <div class="welcome-card">
-            <h2>Sistema de Gestión de Clínica</h2>
-            <p>Has iniciado sesión exitosamente en el sistema.</p>
-
-            <div class="info-section">
-                <h3>Funcionalidades Disponibles:</h3>
-                <ul>
-                    <li>✓ Gestión de citas médicas</li>
-                    <li>✓ Consulta de historial médico</li>
-                    <li>✓ Gestión de PQRS</li>
-                    <li>✓ Actualización de perfil</li>
-                </ul>
-            </div>
-
-            <div class="status-section">
-                <p class="status-text">
-                    <strong>Estado:</strong> <span class="status-active">Sesión Activa</span>
-                </p>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

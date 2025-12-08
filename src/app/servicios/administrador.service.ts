@@ -15,7 +15,7 @@ import { CitaDTOAdmin } from '../modelo/cita-dto-admin';
   providedIn: 'root',
 })
 export class AdministradorService {
-  private adminURL = `${environment.apiUrl}/administrador`;
+  private adminURL = `${environment.apiUrl}/admins`;
 
   constructor(private http: HttpClient) {}
 

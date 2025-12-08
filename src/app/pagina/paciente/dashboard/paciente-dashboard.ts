@@ -41,7 +41,7 @@ export class PacienteDashboard implements OnInit {
         if (response.respuesta) {
           this.totalCitas = response.respuesta.length;
           this.citasPendientes = response.respuesta.filter(
-            c => c.estado?.toLowerCase() === 'pendiente'
+            c => c.estadoCita?.estado?.toLowerCase() === 'pendiente'
           ).length;
         }
         this.cd.detectChanges();

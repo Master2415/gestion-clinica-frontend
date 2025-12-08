@@ -2,7 +2,6 @@ export class RegistroMedicoDTO {
     cedula: string = '';
     nombre: string = '';
     correo: string = '';
-    contrasena: string = '';
     telefono: string = '';
     direccion: string = '';
     urlFoto: string = '';

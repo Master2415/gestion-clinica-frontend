@@ -10,30 +10,28 @@ import { TokenService } from '../../servicios/token';
   styleUrl: './inicio.css',
 })
 export class Inicio implements OnInit {
-
   isAuthenticated: boolean = false;
   userName: string = 'Usuario';
 
-  constructor(
-    private tokenService: TokenService,
-    private router: Router
-  ) { }
+  constructor(private tokenService: TokenService, private router: Router) {}
 
   ngOnInit(): void {
     // Verificar si el usuario está autenticado
     this.isAuthenticated = this.tokenService.isLogged();
 
-    if (!this.isAuthenticated) {
-      this.router.navigate(['/login']);
+    if (this.isAuthenticated) {
+      // Obtener el nombre del usuario del token
+      this.userName = this.tokenService.getNombre() || 'Usuario';
     } else {
-      // Aquí podrías decodificar el token JWT para obtener el nombre del usuario
-      // Por ahora usamos un nombre genérico
-      this.userName = 'Paciente';
+      this.userName = '';
     }
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 
   logout(): void {
     this.tokenService.logout();
   }
 }
-

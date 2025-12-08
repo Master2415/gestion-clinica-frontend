@@ -20,13 +20,13 @@
       <div class="cita-header">
         <span class="fecha">
           <i class="far fa-calendar-alt"></i>
-          {{ cita.fechaCita | date:'medium' }}
+          {{ cita.fechaCita | date : 'medium' }}
         </span>
-        <span class="status-badge" [ngClass]="getStatusClass(cita.estado)">
-          {{ cita.estado }}
+        <span class="status-badge" [ngClass]="getStatusClass(cita.estadoCita)">
+          {{ cita.estadoCita.estado }}
         </span>
       </div>
-      
+
       <div class="cita-body">
         <div class="doctor-info">
           <i class="fas fa-user-md"></i>
@@ -35,17 +35,15 @@
             <p>{{ cita.especialidad }}</p>
           </div>
         </div>
-        
+
         <div class="motivo">
           <strong>Motivo:</strong>
           <p>{{ cita.motivo }}</p>
         </div>
       </div>
 
-      <div class="cita-footer" *ngIf="cita.estado === 'PENDIENTE'">
-        <button class="cancel-btn" (click)="cancelarCita(cita.codigo)">
-          Cancelar Cita
-        </button>
+      <div class="cita-footer" *ngIf="cita.estadoCita.estado === 'PENDIENTE'">
+        <button class="cancel-btn" (click)="cancelarCita(cita.codigo)">Cancelar Cita</button>
       </div>
     </div>
   </div>

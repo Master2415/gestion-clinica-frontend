@@ -33,7 +33,7 @@ import { Ciudad } from '../../../modelo/ciudad';
 
         <div class="form-group" *ngIf="!isEditing">
           <label>Contraseña *</label>
-          <input type="password" [(ngModel)]="medico.contrasena" name="contrasena" required />
+          <input type="password" [(ngModel)]="medico.password" name="password" required />
         </div>
 
         <div class="form-group">
@@ -83,7 +83,7 @@ import { Ciudad } from '../../../modelo/ciudad';
 
         <div class="form-actions">
           <button type="submit" [disabled]="isLoading" class="btn-primary">
-            {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Crear Médico') }}
+            {{ isLoading ? 'Guardando...' : isEditing ? 'Actualizar' : 'Crear Médico' }}
           </button>
           <button type="button" (click)="cancelar()" class="btn-secondary">Cancelar</button>
         </div>

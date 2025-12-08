@@ -1,8 +1,14 @@
+export interface EstadoCita {
+  codigo: number;
+  estado: string;
+}
+
 export interface CitaPacienteDTO {
   codigo: number;
   nombreMedico: string;
   especialidad: string;
   motivo: string;
   fechaCita: string;
-  estado: string;
+  fechaCreacion: string;
+  estadoCita: EstadoCita;
 }

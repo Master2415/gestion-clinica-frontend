@@ -53,8 +53,9 @@ export class MisCitas implements OnInit {
     }
   }
 
-  getStatusClass(estado: string): string {
-    switch (estado.toLowerCase()) {
+  getStatusClass(estadoCita: any): string {
+    const estado = estadoCita?.estado?.toLowerCase() || '';
+    switch (estado) {
       case 'pendiente': return 'status-pending';
       case 'completada': return 'status-completed';
       case 'cancelada': return 'status-cancelled';

@@ -106,8 +106,32 @@
 .card-footer {
   padding-top: 1rem;
   border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.codigo {
   color: #94a3b8;
   font-size: 0.85rem;
+}
+
+.btn-detalle {
+  padding: 0.5rem 1rem;
+  background: #0d9488;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-detalle:hover {
+  background: #0f766e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 148, 136, 0.3);
 }
 
 .empty-state {
