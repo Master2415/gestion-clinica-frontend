@@ -1,27 +1,32 @@
 <div class="page-container">
   <div class="page-header">
-    <h1>Mis Citas Médicas</h1>
-    <p>Historial y estado de tus citas programadas</p>
+    <h1 class="page-title">Mis Citas Médicas</h1>
+    <p class="text-muted">Historial y estado de tus citas programadas</p>
   </div>
 
-  <div class="loading" *ngIf="isLoading">
-    <i class="fas fa-spinner fa-spin"></i>
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
     <p>Cargando citas...</p>
   </div>
 
   <div class="empty-state" *ngIf="!isLoading && citas.length === 0">
-    <i class="fas fa-calendar-times"></i>
+    <div class="empty-icon">
+      <i class="bi bi-calendar-x"></i>
+    </div>
     <h3>No tienes citas registradas</h3>
-    <p>Agenda una nueva cita para comenzar</p>
+    <p>Agenda una nueva cita para comenzar tu seguimiento médico</p>
+    <button class="btn-primary mt-3" routerLink="/paciente/agendar-cita">Agendar Cita</button>
   </div>
 
   <div class="citas-grid" *ngIf="!isLoading && citas.length > 0">
     <div class="cita-card" *ngFor="let cita of citas">
       <div class="cita-header">
-        <span class="fecha">
-          <i class="far fa-calendar-alt"></i>
-          {{ cita.fechaCita | date : 'medium' }}
-        </span>
+        <div class="fecha-badge">
+          <i class="bi bi-calendar-event"></i>
+          <span>{{ cita.fechaCita | date : 'mediumDate' }}</span>
+        </div>
         <span class="status-badge" [ngClass]="getStatusClass(cita.estadoCita)">
           {{ cita.estadoCita.estado }}
         </span>
@@ -29,66 +34,67 @@
 
       <div class="cita-body">
         <div class="doctor-info">
-          <i class="fas fa-user-md"></i>
-          <div>
+          <div class="doctor-avatar">
+            <i class="bi bi-person-badge-fill"></i>
+          </div>
+          <div class="doctor-details">
             <h4>{{ cita.nombreMedico }}</h4>
             <p>{{ cita.especialidad }}</p>
           </div>
         </div>
 
-        <div class="motivo">
-          <strong>Motivo:</strong>
+        <div class="motivo-section">
+          <label>Motivo de consulta:</label>
           <p>{{ cita.motivo }}</p>
         </div>
 
         <!-- Expandable Details Section -->
         <div class="details-section" *ngIf="isExpanded(cita.codigo)">
-          <div class="detail-row">
-            <i class="fas fa-calendar-check"></i>
-            <div>
-              <strong>Fecha de la cita:</strong>
-              <p>{{ cita.fechaCita | date : 'fullDate' }} a las {{ cita.fechaCita | date : 'shortTime' }}</p>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <i class="bi bi-clock"></i>
+              <div>
+                <strong>Hora:</strong>
+                <p>{{ cita.fechaCita | date : 'shortTime' }}</p>
+              </div>
             </div>
-          </div>
-          
-          <div class="detail-row">
-            <i class="fas fa-clock"></i>
-            <div>
-              <strong>Fecha de creación:</strong>
-              <p>{{ cita.fechaCreacion | date : 'medium' }}</p>
+
+            <div class="detail-item">
+              <i class="bi bi-calendar-plus"></i>
+              <div>
+                <strong>Creada el:</strong>
+                <p>{{ cita.fechaCreacion | date : 'mediumDate' }}</p>
+              </div>
             </div>
-          </div>
-          
-          <div class="detail-row">
-            <i class="fas fa-info-circle"></i>
-            <div>
-              <strong>Estado actual:</strong>
-              <p>{{ cita.estadoCita.estado }}</p>
-            </div>
-          </div>
-          
-          <div class="detail-row">
-            <i class="fas fa-hashtag"></i>
-            <div>
-              <strong>Código de cita:</strong>
-              <p>#{{ cita.codigo }}</p>
+
+            <div class="detail-item">
+              <i class="bi bi-hash"></i>
+              <div>
+                <strong>Código:</strong>
+                <p>#{{ cita.codigo }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="cita-footer">
-        <button class="details-btn" (click)="toggleDetalle(cita.codigo)">
-          <i [class]="isExpanded(cita.codigo) ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+        <button class="btn-details" (click)="toggleDetalle(cita.codigo)">
+          <i
+            class="bi"
+            [class.bi-chevron-up]="isExpanded(cita.codigo)"
+            [class.bi-chevron-down]="!isExpanded(cita.codigo)"
+          ></i>
           {{ isExpanded(cita.codigo) ? 'Ocultar Detalles' : 'Ver Detalles' }}
         </button>
+
         <button
-          class="cancel-btn"
-          *ngIf="cita.estadoCita.estado === 'PENDIENTE'"
+          class="btn-cancel"
+          *ngIf="cita.estadoCita.estado === 'PENDIENTE' || cita.estadoCita.estado === 'PROGRAMADA'"
           (click)="abrirModalCancelacion(cita)"
         >
-          <i class="fas fa-times-circle"></i>
-          Cancelar Cita
+          <i class="bi bi-x-circle"></i>
+          Cancelar
         </button>
       </div>
     </div>
@@ -98,46 +104,33 @@
   <div class="modal-overlay" *ngIf="showCancelModal" (click)="cerrarModal()">
     <div class="modal-container" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <i class="fas fa-exclamation-triangle"></i>
+        <div class="modal-icon warning">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
         <h3>Confirmar Cancelación</h3>
       </div>
-      
+
       <div class="modal-body">
         <p class="modal-question">¿Estás seguro de cancelar esta cita?</p>
-        
+
         <div class="cita-summary" *ngIf="citaToCancel">
-          <div class="summary-row">
-            <strong>Médico:</strong>
-            <span>{{ citaToCancel.nombreMedico }}</span>
+          <div class="summary-item">
+            <span class="label">Médico:</span>
+            <span class="value">{{ citaToCancel.nombreMedico }}</span>
           </div>
-          <div class="summary-row">
-            <strong>Especialidad:</strong>
-            <span>{{ citaToCancel.especialidad }}</span>
-          </div>
-          <div class="summary-row">
-            <strong>Fecha:</strong>
-            <span>{{ citaToCancel.fechaCita | date : 'medium' }}</span>
-          </div>
-          <div class="summary-row">
-            <strong>Motivo:</strong>
-            <span>{{ citaToCancel.motivo }}</span>
+          <div class="summary-item">
+            <span class="label">Fecha:</span>
+            <span class="value">{{ citaToCancel.fechaCita | date : 'medium' }}</span>
           </div>
         </div>
-        
+
         <p class="modal-warning">Esta acción no se puede deshacer.</p>
       </div>
-      
+
       <div class="modal-footer">
-        <button class="btn-cancel-modal" (click)="cerrarModal()">
-          <i class="fas fa-arrow-left"></i>
-          No, volver
-        </button>
-        <button class="btn-confirm" (click)="confirmarCancelacion()">
-          <i class="fas fa-check"></i>
-          Sí, cancelar cita
-        </button>
+        <button class="btn-secondary" (click)="cerrarModal()">Volver</button>
+        <button class="btn-danger" (click)="confirmarCancelacion()">Sí, cancelar cita</button>
       </div>
     </div>
   </div>
 </div>
-

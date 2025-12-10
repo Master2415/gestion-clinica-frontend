@@ -1,52 +1,88 @@
-<div class="dashboard">
-  <h2>Bienvenido, {{ userName }}</h2>
-
-  <div *ngIf="isLoading" class="loading">Cargando estadísticas...</div>
-
-  <div *ngIf="!isLoading" class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">👨‍⚕️</div>
-      <div class="stat-content">
-        <h3>Médicos</h3>
-        <p class="stat-number">{{ totalMedicos }}</p>
-      </div>
-      <a routerLink="/admin/medicos" class="stat-link">Ver todos →</a>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">💬</div>
-      <div class="stat-content">
-        <h3>PQRS</h3>
-        <p class="stat-number">{{ totalPqrs }}</p>
-      </div>
-      <a routerLink="/admin/pqrs" class="stat-link">Ver todos →</a>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">📅</div>
-      <div class="stat-content">
-        <h3>Citas</h3>
-        <p class="stat-number">{{ totalCitas }}</p>
-      </div>
-      <a routerLink="/admin/citas" class="stat-link">Ver todas →</a>
-    </div>
+<div class="dashboard-container">
+  <div class="welcome-section">
+    <h2>Bienvenido, <span class="text-primary">{{ userName }}</span></h2>
+    <p class="text-muted">Aquí tienes un resumen de la actividad reciente en la clínica.</p>
   </div>
 
-  <div *ngIf="!isLoading" class="quick-actions">
-    <h3>Acciones Rápidas</h3>
-    <div class="actions-grid">
-      <a routerLink="/admin/medicos/crear" class="action-btn">
-        <span class="action-icon">➕</span>
-        <span>Crear Médico</span>
-      </a>
-      <a routerLink="/admin/medicos" class="action-btn">
-        <span class="action-icon">📋</span>
-        <span>Ver Médicos</span>
-      </a>
-      <a routerLink="/admin/pqrs" class="action-btn">
-        <span class="action-icon">✉️</span>
-        <span>Ver PQRS</span>
-      </a>
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="dashboard-content">
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper blue">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Médicos</h3>
+          <p class="stat-number">{{ totalMedicos }}</p>
+        </div>
+        <a routerLink="/admin/medicos" class="stat-link">
+          Ver lista <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper orange">
+          <i class="bi bi-chat-square-text-fill"></i>
+        </div>
+        <div class="stat-info">
+          <h3>PQRS</h3>
+          <p class="stat-number">{{ totalPqrs }}</p>
+        </div>
+        <a routerLink="/admin/pqrs" class="stat-link">
+          Gestionar <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper green">
+          <i class="bi bi-calendar-check-fill"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Citas</h3>
+          <p class="stat-number">{{ totalCitas }}</p>
+        </div>
+        <a routerLink="/admin/citas" class="stat-link">
+          Ver agenda <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+      <h3 class="section-title">Acciones Rápidas</h3>
+      <div class="actions-grid">
+        <a routerLink="/admin/medicos/crear" class="action-card">
+          <div class="action-icon">
+            <i class="bi bi-person-plus-fill"></i>
+          </div>
+          <span class="action-label">Registrar Médico</span>
+        </a>
+        <a routerLink="/admin/medicos" class="action-card">
+          <div class="action-icon">
+            <i class="bi bi-person-lines-fill"></i>
+          </div>
+          <span class="action-label">Gestionar Médicos</span>
+        </a>
+        <a routerLink="/admin/pqrs" class="action-card">
+          <div class="action-icon">
+            <i class="bi bi-inbox-fill"></i>
+          </div>
+          <span class="action-label">Revisar PQRS</span>
+        </a>
+        <a routerLink="/admin/citas" class="action-card">
+          <div class="action-icon">
+            <i class="bi bi-calendar-week-fill"></i>
+          </div>
+          <span class="action-label">Ver Citas</span>
+        </a>
+      </div>
     </div>
   </div>
 </div>

@@ -12,173 +12,261 @@ import { Ciudad } from '../../../modelo/ciudad';
   selector: 'app-crear-medico',
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="crear-medico">
-      <h2>{{ isEditing ? 'Editar Médico' : 'Crear Nuevo Médico' }}</h2>
+    <div class="crear-medico-page">
+      <div class="page-header">
+        <h2 class="page-title">{{ isEditing ? 'Editar Médico' : 'Registrar Nuevo Médico' }}</h2>
+        <p class="text-muted">Complete la información para {{ isEditing ? 'actualizar los datos del' : 'registrar un nuevo' }} especialista.</p>
+      </div>
 
-      <form (ngSubmit)="guardarMedico()" class="medico-form">
-        <div class="form-group">
-          <label>Cédula *</label>
-          <input type="text" [(ngModel)]="medico.cedula" name="cedula" required maxlength="10" />
-        </div>
+      <div class="card-form">
+        <form (ngSubmit)="guardarMedico()" class="medico-form">
+          <div class="form-section">
+            <h3 class="section-title"><i class="bi bi-person-vcard-fill"></i> Información Personal</h3>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Cédula <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-card-heading input-icon"></i>
+                  <input type="text" [(ngModel)]="medico.cedula" name="cedula" required maxlength="10" placeholder="Ej: 1094857123" />
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>Nombre *</label>
-          <input type="text" [(ngModel)]="medico.nombre" name="nombre" required maxlength="200" />
-        </div>
+              <div class="form-group">
+                <label>Nombre Completo <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-person input-icon"></i>
+                  <input type="text" [(ngModel)]="medico.nombre" name="nombre" required maxlength="200" placeholder="Ej: Dr. Juan Pérez" />
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>Correo *</label>
-          <input type="email" [(ngModel)]="medico.correo" name="correo" required maxlength="80" />
-        </div>
+              <div class="form-group">
+                <label>Correo Electrónico <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-envelope input-icon"></i>
+                  <input type="email" [(ngModel)]="medico.correo" name="correo" required maxlength="80" placeholder="correo@clinica.com" />
+                </div>
+              </div>
 
-        <div class="form-group" *ngIf="!isEditing">
-          <label>Contraseña *</label>
-          <input
-            type="password"
-            [(ngModel)]="medico.password"
-            name="password"
-            required
-            maxlength="200"
-          />
-        </div>
+              <div class="form-group" *ngIf="!isEditing">
+                <label>Contraseña <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-lock input-icon"></i>
+                  <input type="password" [(ngModel)]="medico.password" name="password" required maxlength="200" placeholder="********" />
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>Teléfono *</label>
-          <input type="tel" [(ngModel)]="medico.telefono" name="telefono" required maxlength="10" />
-        </div>
+              <div class="form-group">
+                <label>Teléfono <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-telephone input-icon"></i>
+                  <input type="tel" [(ngModel)]="medico.telefono" name="telefono" required maxlength="10" placeholder="Ej: 3001234567" />
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>Dirección *</label>
-          <input
-            type="text"
-            [(ngModel)]="medico.direccion"
-            name="direccion"
-            required
-            maxlength="100"
-          />
-        </div>
+              <div class="form-group">
+                <label>Dirección <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-geo-alt input-icon"></i>
+                  <input type="text" [(ngModel)]="medico.direccion" name="direccion" required maxlength="100" placeholder="Ej: Calle 123 #45-67" />
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>URL Foto</label>
-          <input type="url" [(ngModel)]="medico.urlFoto" name="urlFoto" />
-        </div>
+              <div class="form-group">
+                <label>URL Foto de Perfil</label>
+                <div class="input-wrapper">
+                  <i class="bi bi-image input-icon"></i>
+                  <input type="url" [(ngModel)]="medico.urlFoto" name="urlFoto" placeholder="https://..." />
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label>Ciudad *</label>
-          <select
-            [(ngModel)]="ciudadSeleccionada"
-            name="ciudad"
-            required
-            (change)="onCiudadChange()"
-          >
-            <option value="">Seleccione una ciudad</option>
-            <option *ngFor="let ciudad of ciudades" [value]="ciudad.codigo">
-              {{ ciudad.nombre }}
-            </option>
-          </select>
-        </div>
+          <div class="form-section mt-4">
+            <h3 class="section-title"><i class="bi bi-hospital-fill"></i> Información Profesional</h3>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Ciudad <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-building input-icon"></i>
+                  <select [(ngModel)]="ciudadSeleccionada" name="ciudad" required (change)="onCiudadChange()">
+                    <option value="">Seleccione una ciudad...</option>
+                    <option *ngFor="let ciudad of ciudades" [value]="ciudad.codigo">{{ ciudad.nombre }}</option>
+                  </select>
+                </div>
+              </div>
 
-        <div class="form-group">
-          <label>Especialidad *</label>
-          <select
-            [(ngModel)]="especialidadSeleccionada"
-            name="especialidad"
-            required
-            (change)="onEspecialidadChange()"
-          >
-            <option value="">Seleccione una especialidad</option>
-            <option *ngFor="let esp of especialidades" [value]="esp.codigo">
-              {{ esp.nombre }}
-            </option>
-          </select>
-        </div>
+              <div class="form-group">
+                <label>Especialidad <span class="text-danger">*</span></label>
+                <div class="input-wrapper">
+                  <i class="bi bi-award input-icon"></i>
+                  <select [(ngModel)]="especialidadSeleccionada" name="especialidad" required (change)="onEspecialidadChange()">
+                    <option value="">Seleccione una especialidad...</option>
+                    <option *ngFor="let esp of especialidades" [value]="esp.codigo">{{ esp.nombre }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div class="form-actions">
-          <button type="submit" [disabled]="isLoading" class="btn-primary">
-            {{ isLoading ? 'Guardando...' : isEditing ? 'Actualizar' : 'Crear Médico' }}
-          </button>
-          <button type="button" (click)="cancelar()" class="btn-secondary">Cancelar</button>
-        </div>
+          <div class="form-actions">
+            <button type="button" (click)="cancelar()" class="btn-secondary">
+              Cancelar
+            </button>
+            <button type="submit" [disabled]="isLoading" class="btn-primary">
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isLoading ? 'Guardando...' : isEditing ? 'Actualizar Médico' : 'Registrar Médico' }}
+            </button>
+          </div>
 
-        <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
-        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-      </form>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+          </div>
+          <div *ngIf="successMessage" class="alert alert-success mt-3">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ successMessage }}
+          </div>
+        </form>
+      </div>
     </div>
   `,
   styles: [
     `
-      .crear-medico {
-        max-width: 600px;
-        padding: 2rem;
+      .crear-medico-page {
+        max-width: 900px;
+        margin: 0 auto;
       }
-      h2 {
+      .page-header {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+      .card-form {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(0,0,0,0.05);
+      }
+      .form-section {
         margin-bottom: 2rem;
       }
-      .medico-form {
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary-blue);
+        border-bottom: 2px solid var(--neutral-light);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
       }
       .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
       }
       label {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
       }
-      input,
-      select {
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input-icon {
+        position: absolute;
+        left: 1rem;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        pointer-events: none;
+      }
+      input, select {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        padding: 0.75rem 1rem 0.75rem 2.75rem;
+        border: 1px solid var(--neutral-medium);
+        border-radius: 8px;
         font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #F8FAFC;
+        color: var(--text-primary);
+      }
+      input:focus, select:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        background: white;
       }
       .form-actions {
         display: flex;
+        justify-content: flex-end;
         gap: 1rem;
-        margin-top: 2rem;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--neutral-light);
       }
-      .btn-primary,
-      .btn-secondary {
+      .btn-primary, .btn-secondary {
         padding: 0.75rem 1.5rem;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 1rem;
       }
       .btn-primary {
-        background: #3498db;
+        background: var(--gradient-primary);
         color: white;
+        box-shadow: var(--shadow-md);
       }
       .btn-primary:hover {
-        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
       }
       .btn-primary:disabled {
-        background: #95a5a6;
-        cursor: not-allowed;
+        background: var(--neutral-medium);
+        transform: none;
+        box-shadow: none;
       }
       .btn-secondary {
-        background: #ecf0f1;
-        color: #2c3e50;
+        background: white;
+        border: 1px solid var(--neutral-medium);
+        color: var(--text-secondary);
       }
       .btn-secondary:hover {
-        background: #bdc3c7;
+        background: var(--neutral-light);
+        color: var(--text-primary);
       }
       .alert {
         padding: 1rem;
-        margin-top: 1rem;
-        border-radius: 6px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
       }
-      .alert-error {
-        background: #fee;
-        color: #c33;
+      .alert-danger {
+        background: #FEF2F2;
+        color: #EF4444;
+        border: 1px solid #FEE2E2;
       }
       .alert-success {
-        background: #efe;
-        color: #3c3;
+        background: #F0FDF4;
+        color: #16A34A;
+        border: 1px solid #DCFCE7;
       }
+      .text-danger { color: #EF4444; }
     `,
   ],
 })

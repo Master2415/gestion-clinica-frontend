@@ -3,17 +3,17 @@
   <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
     <div class="sidebar-header">
       <div class="logo">
-        <i class="fas fa-user-injured"></i>
+        <i class="bi bi-heart-pulse-fill"></i>
         <span *ngIf="!sidebarCollapsed">Portal Paciente</span>
       </div>
       <button class="toggle-btn" (click)="toggleSidebar()">
-        <i class="fas" [class.fa-bars]="sidebarCollapsed" [class.fa-times]="!sidebarCollapsed"></i>
+        <i class="bi" [class.bi-list]="sidebarCollapsed" [class.bi-x-lg]="!sidebarCollapsed"></i>
       </button>
     </div>
 
     <div class="user-info" *ngIf="!sidebarCollapsed">
       <div class="user-avatar">
-        <i class="fas fa-user-circle"></i>
+        <i class="bi bi-person-circle"></i>
       </div>
       <div class="user-details">
         <h3>{{ nombrePaciente }}</h3>
@@ -23,41 +23,65 @@
 
     <nav class="sidebar-nav">
       <a routerLink="/paciente/dashboard" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-home"></i>
+        <i class="bi bi-grid-1x2-fill"></i>
         <span *ngIf="!sidebarCollapsed">Dashboard</span>
       </a>
+      
+      <div class="nav-section-label" *ngIf="!sidebarCollapsed">Citas</div>
+      
       <a routerLink="/paciente/agendar-cita" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-calendar-plus"></i>
+        <i class="bi bi-calendar-plus-fill"></i>
         <span *ngIf="!sidebarCollapsed">Agendar Cita</span>
       </a>
       <a routerLink="/paciente/mis-citas" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-calendar-check"></i>
+        <i class="bi bi-calendar-check-fill"></i>
         <span *ngIf="!sidebarCollapsed">Mis Citas</span>
       </a>
+      
+      <div class="nav-section-label" *ngIf="!sidebarCollapsed">Historial</div>
+      
       <a routerLink="/paciente/historial" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-file-medical"></i>
+        <i class="bi bi-file-earmark-medical-fill"></i>
         <span *ngIf="!sidebarCollapsed">Historial Médico</span>
       </a>
+      
+      <div class="nav-section-label" *ngIf="!sidebarCollapsed">Atención</div>
+      
       <a routerLink="/paciente/mis-pqrs" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-comments"></i>
+        <i class="bi bi-chat-right-text-fill"></i>
         <span *ngIf="!sidebarCollapsed">Mis PQRS</span>
       </a>
       <a routerLink="/paciente/crear-pqrs" routerLinkActive="active" class="nav-item">
-        <i class="fas fa-plus-circle"></i>
+        <i class="bi bi-plus-circle-fill"></i>
         <span *ngIf="!sidebarCollapsed">Nueva PQRS</span>
       </a>
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span *ngIf="!sidebarCollapsed">Cerrar Sesión</span>
-      </button>
+      <div class="version-info" *ngIf="!sidebarCollapsed">
+        <span>v1.0.0</span>
+      </div>
     </div>
   </aside>
 
-  <!-- Main Content -->
-  <main class="main-content" [class.expanded]="sidebarCollapsed">
-    <router-outlet></router-outlet>
-  </main>
+  <!-- Main Content Wrapper -->
+  <div class="content-wrapper" [class.expanded]="sidebarCollapsed">
+    <!-- Toolbar -->
+    <header class="toolbar">
+      <div class="toolbar-left">
+        <h1 class="page-title">Bienvenido</h1>
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-logout" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

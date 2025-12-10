@@ -64,4 +64,11 @@ export class AdministradorService {
   listarCitas(): Observable<MensajeDTO<CitaDTOAdmin[]>> {
     return this.http.get<MensajeDTO<CitaDTOAdmin[]>>(`${this.adminURL}/listar-citas`);
   }
+
+  cambiarEstadoCita(codigoCita: number, codigoEstado: number): Observable<MensajeDTO<string>> {
+    return this.http.put<MensajeDTO<string>>(
+      `${this.adminURL}/cambiar-estado-cita/${codigoCita}/${codigoEstado}`,
+      {}
+    );
+  }
 }

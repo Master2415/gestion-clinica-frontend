@@ -1,47 +1,75 @@
 <div class="page-container">
   <div class="page-header">
-    <h1>Crear Nueva PQRS</h1>
-    <p>Envía tus peticiones, quejas, reclamos o sugerencias</p>
+    <h1 class="page-title">Crear Nueva PQRS</h1>
+    <p class="text-muted">Envía tus peticiones, quejas, reclamos o sugerencias</p>
   </div>
 
   <div class="form-card">
-    <div class="alert success" *ngIf="successMessage">
-      <i class="fas fa-check-circle"></i> {{ successMessage }}
+    <div class="alert alert-success" *ngIf="successMessage">
+      <i class="bi bi-check-circle-fill"></i> {{ successMessage }}
     </div>
     
-    <div class="alert error" *ngIf="errorMessage">
-      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      <i class="bi bi-exclamation-circle-fill"></i> {{ errorMessage }}
     </div>
 
-    <form (ngSubmit)="crear()">
-      <div class="form-group">
-        <label>Tipo de Solicitud</label>
-        <select [(ngModel)]="crearPqrsDTO.tipoPqrs" name="tipo" class="form-control" required>
-          <option value="" disabled>Seleccione un tipo</option>
-          <option *ngFor="let tipo of tiposPqrs" [value]="tipo">{{ tipo }}</option>
-        </select>
+    <form (ngSubmit)="crear()" class="pqrs-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Tipo de Solicitud</label>
+          <div class="input-wrapper">
+            <i class="bi bi-tag input-icon"></i>
+            <select [(ngModel)]="crearPqrsDTO.tipoPqrs" name="tipo" class="form-control" required>
+              <option value="" disabled>Seleccione un tipo</option>
+              <option *ngFor="let tipo of tiposPqrs" [value]="tipo">{{ tipo }}</option>
+            </select>
+            <i class="bi bi-chevron-down select-arrow"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Cita Relacionada</label>
+          <div class="input-wrapper">
+            <i class="bi bi-calendar-event input-icon"></i>
+            <select [(ngModel)]="crearPqrsDTO.codigoCita" name="cita" class="form-control" required>
+              <option [value]="0" disabled>Seleccione la cita relacionada</option>
+              <option *ngFor="let cita of citas" [value]="cita.codigo">
+                {{ cita.fechaCita | date:'shortDate' }} - {{ cita.nombreMedico }}
+              </option>
+            </select>
+            <i class="bi bi-chevron-down select-arrow"></i>
+          </div>
+          <small class="help-text" *ngIf="citas.length === 0">
+            <i class="bi bi-info-circle"></i> No tienes citas disponibles para asociar
+          </small>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Cita Relacionada</label>
-        <select [(ngModel)]="crearPqrsDTO.codigoCita" name="cita" class="form-control" required>
-          <option [value]="0" disabled>Seleccione la cita relacionada</option>
-          <option *ngFor="let cita of citas" [value]="cita.codigo">
-            {{ cita.fechaCita | date:'short' }} - {{ cita.nombreMedico }}
-          </option>
-        </select>
-        <small class="help-text" *ngIf="citas.length === 0">No tienes citas disponibles para asociar</small>
-      </div>
-
-      <div class="form-group">
+      <div class="form-group full-width">
         <label>Detalle de la Solicitud</label>
-        <textarea [(ngModel)]="crearPqrsDTO.motivo" name="motivo" rows="6" class="form-control" placeholder="Describe detalladamente tu solicitud..." required></textarea>
+        <div class="input-wrapper">
+          <i class="bi bi-pencil-square input-icon textarea-icon"></i>
+          <textarea 
+            [(ngModel)]="crearPqrsDTO.motivo" 
+            name="motivo" 
+            rows="6" 
+            class="form-control" 
+            placeholder="Describe detalladamente tu solicitud..." 
+            required
+          ></textarea>
+        </div>
       </div>
 
-      <button type="submit" class="submit-btn" [disabled]="isLoading || citas.length === 0">
-        <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
-        <span *ngIf="!isLoading">Enviar Solicitud</span>
-      </button>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="isLoading || citas.length === 0">
+          <div class="spinner-border spinner-border-sm" *ngIf="isLoading" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <span *ngIf="!isLoading">
+            <i class="bi bi-send-fill"></i> Enviar Solicitud
+          </span>
+        </button>
+      </div>
     </form>
   </div>
 </div>

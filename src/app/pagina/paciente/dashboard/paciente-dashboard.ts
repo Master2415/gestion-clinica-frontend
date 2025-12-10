@@ -18,6 +18,7 @@ export class PacienteDashboard implements OnInit {
   isLoading = true;
   codigoPaciente = 0;
   userName = '';
+  today = new Date();
 
   constructor(
     private pacienteService: PacienteService,

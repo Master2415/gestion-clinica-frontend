@@ -1,38 +1,58 @@
 <div class="page-container">
   <div class="page-header">
-    <h1>Mis Solicitudes (PQRS)</h1>
-    <p>Seguimiento de tus peticiones, quejas y reclamos</p>
+    <div class="header-content">
+      <h1 class="page-title">Mis Solicitudes (PQRS)</h1>
+      <p class="text-muted">Seguimiento de tus peticiones, quejas y reclamos</p>
+    </div>
+    <a routerLink="/paciente/crear-pqrs" class="btn-primary">
+      <i class="bi bi-plus-lg"></i> Nueva Solicitud
+    </a>
   </div>
 
-  <div class="loading" *ngIf="isLoading">
-    <i class="fas fa-spinner fa-spin"></i>
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
     <p>Cargando solicitudes...</p>
   </div>
 
   <div class="empty-state" *ngIf="!isLoading && pqrs.length === 0">
-    <i class="fas fa-comments"></i>
+    <div class="empty-icon">
+      <i class="bi bi-chat-square-text"></i>
+    </div>
     <h3>No tienes solicitudes registradas</h3>
-    <p>Crea una nueva PQRS si necesitas ayuda</p>
-    <a routerLink="/paciente/crear-pqrs" class="create-btn">Crear Nueva PQRS</a>
+    <p>Crea una nueva PQRS si necesitas ayuda o quieres reportar algo</p>
+    <a routerLink="/paciente/crear-pqrs" class="btn-primary mt-3">
+      Crear Nueva PQRS
+    </a>
   </div>
 
   <div class="pqrs-grid" *ngIf="!isLoading && pqrs.length > 0">
     <div class="pqrs-card" *ngFor="let item of pqrs">
       <div class="card-header">
-        <span class="fecha">{{ item.fechaCreacion | date:'medium' }}</span>
+        <div class="fecha-badge">
+          <i class="bi bi-calendar-event"></i>
+          <span>{{ item.fechaCreacion | date:'mediumDate' }}</span>
+        </div>
         <span class="status-badge" [ngClass]="getStatusClass(item.estado)">
           {{ item.estado }}
         </span>
       </div>
 
       <div class="card-body">
-        <div class="type-badge">{{ item.tipoPqrs }}</div>
+        <div class="type-badge">
+          <i class="bi bi-tag-fill"></i> {{ item.tipoPqrs }}
+        </div>
         <p class="motivo">{{ item.motivo }}</p>
       </div>
 
       <div class="card-footer">
-        <span class="codigo">Radicado #{{ item.codigo }}</span>
-        <button class="btn-detalle" (click)="verDetalle(item.codigo)">Ver Detalle</button>
+        <span class="codigo">
+          <i class="bi bi-hash"></i> {{ item.codigo }}
+        </span>
+        <button class="btn-detalle" (click)="verDetalle(item.codigo)">
+          Ver Detalle <i class="bi bi-arrow-right"></i>
+        </button>
       </div>
     </div>
   </div>

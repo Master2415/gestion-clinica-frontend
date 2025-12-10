@@ -2,40 +2,57 @@
   <!-- Sidebar -->
   <aside class="sidebar" [class.sidebar-collapsed]="!isSidebarOpen">
     <div class="sidebar-header">
-      <h2 *ngIf="isSidebarOpen">Admin Panel</h2>
+      <div class="logo-container" *ngIf="isSidebarOpen">
+        <i class="bi bi-hospital-fill logo-icon"></i>
+        <span class="logo-text">Clínica <strong>Master</strong></span>
+      </div>
       <button class="toggle-btn" (click)="toggleSidebar()">
-        <span>☰</span>
+        <i class="bi" [class.bi-list]="!isSidebarOpen" [class.bi-x-lg]="isSidebarOpen"></i>
       </button>
     </div>
 
     <nav class="sidebar-nav">
       <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
-        <span class="icon">📊</span>
+        <i class="bi bi-grid-1x2-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">Dashboard</span>
       </a>
       <a routerLink="/admin/medicos" routerLinkActive="active" class="nav-item">
-        <span class="icon">👨‍⚕️</span>
+        <i class="bi bi-person-badge-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">Médicos</span>
       </a>
       <a routerLink="/admin/pqrs" routerLinkActive="active" class="nav-item">
-        <span class="icon">💬</span>
+        <i class="bi bi-chat-square-text-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">PQRS</span>
       </a>
       <a routerLink="/admin/citas" routerLinkActive="active" class="nav-item">
-        <span class="icon">📅</span>
+        <i class="bi bi-calendar-check-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">Citas</span>
       </a>
     </nav>
+
+    <div class="sidebar-footer" *ngIf="isSidebarOpen">
+      <p class="version">v1.0.0</p>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <div class="main-content">
     <!-- Toolbar -->
     <header class="toolbar">
-      <h1>Panel de Administración</h1>
+      <div class="toolbar-left">
+        <h1 class="page-title">Panel de Administración</h1>
+      </div>
       <div class="toolbar-actions">
-        <span class="admin-name">{{ adminName }}</span>
-        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+        <div class="admin-profile">
+          <div class="admin-avatar">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <span class="admin-name">{{ adminName }}</span>
+        </div>
+        <button class="btn-logout" (click)="logout()" title="Cerrar Sesión">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="logout-text">Salir</span>
+        </button>
       </div>
     </header>
 
