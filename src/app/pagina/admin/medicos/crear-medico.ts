@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,32 +18,44 @@ import { Ciudad } from '../../../modelo/ciudad';
       <form (ngSubmit)="guardarMedico()" class="medico-form">
         <div class="form-group">
           <label>Cédula *</label>
-          <input type="text" [(ngModel)]="medico.cedula" name="cedula" required />
+          <input type="text" [(ngModel)]="medico.cedula" name="cedula" required maxlength="10" />
         </div>
 
         <div class="form-group">
           <label>Nombre *</label>
-          <input type="text" [(ngModel)]="medico.nombre" name="nombre" required />
+          <input type="text" [(ngModel)]="medico.nombre" name="nombre" required maxlength="200" />
         </div>
 
         <div class="form-group">
           <label>Correo *</label>
-          <input type="email" [(ngModel)]="medico.correo" name="correo" required />
+          <input type="email" [(ngModel)]="medico.correo" name="correo" required maxlength="80" />
         </div>
 
         <div class="form-group" *ngIf="!isEditing">
           <label>Contraseña *</label>
-          <input type="password" [(ngModel)]="medico.password" name="password" required />
+          <input
+            type="password"
+            [(ngModel)]="medico.password"
+            name="password"
+            required
+            maxlength="200"
+          />
         </div>
 
         <div class="form-group">
           <label>Teléfono *</label>
-          <input type="tel" [(ngModel)]="medico.telefono" name="telefono" required />
+          <input type="tel" [(ngModel)]="medico.telefono" name="telefono" required maxlength="10" />
         </div>
 
         <div class="form-group">
           <label>Dirección *</label>
-          <input type="text" [(ngModel)]="medico.direccion" name="direccion" required />
+          <input
+            type="text"
+            [(ngModel)]="medico.direccion"
+            name="direccion"
+            required
+            maxlength="100"
+          />
         </div>
 
         <div class="form-group">
@@ -186,7 +198,8 @@ export class CrearMedico implements OnInit {
     private adminService: AdministradorService,
     private clinicaService: ClinicaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     // Initialize default values for required fields
     this.medico.horarios = [];
@@ -243,6 +256,9 @@ export class CrearMedico implements OnInit {
           this.medico.urlFoto = data.urlFoto;
           this.medico.ciudad = data.ciudad;
           this.medico.especialidad = data.especialidad;
+          this.medico.horaInicio = data.horaInicio;
+          this.medico.horaFin = data.horaFin;
+          this.medico.horarios = data.horarios || [];
           // Note: Password is not returned, leave empty or handle separately
 
           if (data.ciudad) {
@@ -253,6 +269,8 @@ export class CrearMedico implements OnInit {
           }
         }
         this.isLoading = false;
+        // Force change detection to update UI immediately
+        this.cd.detectChanges();
       },
       error: (error) => {
         this.errorMessage = 'Error al cargar datos del médico';
@@ -290,6 +308,18 @@ export class CrearMedico implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
+    // Frontend validation for length constraints
+    if (this.medico.cedula.length > 10) {
+      this.errorMessage = 'La cédula no puede tener más de 10 caracteres';
+      this.isLoading = false;
+      return;
+    }
+    if (this.medico.telefono.length > 10) {
+      this.errorMessage = 'El teléfono no puede tener más de 10 caracteres';
+      this.isLoading = false;
+      return;
+    }
+
     // Ensure required fields are set
     if (!this.medico.horarios) this.medico.horarios = [];
     if (!this.medico.estadoMedico) this.medico.estadoMedico = { codigo: 1, nombre: 'ACTIVO' };
@@ -303,7 +333,16 @@ export class CrearMedico implements OnInit {
         }, 1500);
       },
       error: (error) => {
-        this.errorMessage = error.error?.respuesta || 'Error al crear médico';
+        if (error.error && error.error.respuesta) {
+          const respuesta = error.error.respuesta;
+          if (typeof respuesta === 'object') {
+            this.errorMessage = Object.values(respuesta).join(', ');
+          } else {
+            this.errorMessage = respuesta;
+          }
+        } else {
+          this.errorMessage = 'Error al crear médico';
+        }
         this.isLoading = false;
       },
     });
@@ -327,9 +366,9 @@ export class CrearMedico implements OnInit {
       ciudad: this.medico.ciudad,
       especialidad: this.medico.especialidad,
       urlFoto: this.medico.urlFoto,
-      horaInicio: null, // Add time pickers if needed
-      horaFin: null,
-      horarios: [],
+      horaInicio: this.medico.horaInicio || null,
+      horaFin: this.medico.horaFin || null,
+      // Note: horarios is not part of DetalleMedicoDTO, removed from update
     };
 
     this.adminService.actualizarMedico(detalleDTO).subscribe({
@@ -341,7 +380,16 @@ export class CrearMedico implements OnInit {
         }, 1500);
       },
       error: (error) => {
-        this.errorMessage = error.error?.respuesta || 'Error al actualizar médico';
+        if (error.error && error.error.respuesta) {
+          const respuesta = error.error.respuesta;
+          if (typeof respuesta === 'object') {
+            this.errorMessage = Object.values(respuesta).join(', ');
+          } else {
+            this.errorMessage = respuesta;
+          }
+        } else {
+          this.errorMessage = 'Error al actualizar médico';
+        }
         this.isLoading = false;
       },
     });

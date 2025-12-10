@@ -10,4 +10,6 @@ export class RegistroMedicoDTO {
     horarios: any[] = [];
     estadoMedico: { codigo: number; nombre: string } = { codigo: 1, nombre: 'ACTIVO' };
     password: string = '';
+    horaInicio?: any; // Optional for edit mode
+    horaFin?: any; // Optional for edit mode
 }

@@ -40,11 +40,104 @@
           <strong>Motivo:</strong>
           <p>{{ cita.motivo }}</p>
         </div>
+
+        <!-- Expandable Details Section -->
+        <div class="details-section" *ngIf="isExpanded(cita.codigo)">
+          <div class="detail-row">
+            <i class="fas fa-calendar-check"></i>
+            <div>
+              <strong>Fecha de la cita:</strong>
+              <p>{{ cita.fechaCita | date : 'fullDate' }} a las {{ cita.fechaCita | date : 'shortTime' }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-row">
+            <i class="fas fa-clock"></i>
+            <div>
+              <strong>Fecha de creación:</strong>
+              <p>{{ cita.fechaCreacion | date : 'medium' }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-row">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>Estado actual:</strong>
+              <p>{{ cita.estadoCita.estado }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-row">
+            <i class="fas fa-hashtag"></i>
+            <div>
+              <strong>Código de cita:</strong>
+              <p>#{{ cita.codigo }}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="cita-footer" *ngIf="cita.estadoCita.estado === 'PENDIENTE'">
-        <button class="cancel-btn" (click)="cancelarCita(cita.codigo)">Cancelar Cita</button>
+      <div class="cita-footer">
+        <button class="details-btn" (click)="toggleDetalle(cita.codigo)">
+          <i [class]="isExpanded(cita.codigo) ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+          {{ isExpanded(cita.codigo) ? 'Ocultar Detalles' : 'Ver Detalles' }}
+        </button>
+        <button
+          class="cancel-btn"
+          *ngIf="cita.estadoCita.estado === 'PENDIENTE'"
+          (click)="abrirModalCancelacion(cita)"
+        >
+          <i class="fas fa-times-circle"></i>
+          Cancelar Cita
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancellation Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showCancelModal" (click)="cerrarModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Confirmar Cancelación</h3>
+      </div>
+      
+      <div class="modal-body">
+        <p class="modal-question">¿Estás seguro de cancelar esta cita?</p>
+        
+        <div class="cita-summary" *ngIf="citaToCancel">
+          <div class="summary-row">
+            <strong>Médico:</strong>
+            <span>{{ citaToCancel.nombreMedico }}</span>
+          </div>
+          <div class="summary-row">
+            <strong>Especialidad:</strong>
+            <span>{{ citaToCancel.especialidad }}</span>
+          </div>
+          <div class="summary-row">
+            <strong>Fecha:</strong>
+            <span>{{ citaToCancel.fechaCita | date : 'medium' }}</span>
+          </div>
+          <div class="summary-row">
+            <strong>Motivo:</strong>
+            <span>{{ citaToCancel.motivo }}</span>
+          </div>
+        </div>
+        
+        <p class="modal-warning">Esta acción no se puede deshacer.</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel-modal" (click)="cerrarModal()">
+          <i class="fas fa-arrow-left"></i>
+          No, volver
+        </button>
+        <button class="btn-confirm" (click)="confirmarCancelacion()">
+          <i class="fas fa-check"></i>
+          Sí, cancelar cita
+        </button>
       </div>
     </div>
   </div>
 </div>
+

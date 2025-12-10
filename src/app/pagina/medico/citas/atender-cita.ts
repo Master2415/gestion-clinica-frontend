@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MedicoService } from '../../../servicios/medico.service';
+import { TokenService } from '../../../servicios/token';
 import { RegistroAtencionDTO } from '../../../modelo/registro-atencion-dto';
 
 @Component({
@@ -19,6 +20,7 @@ export class AtenderCita implements OnInit {
 
     constructor(
         private medicoService: MedicoService,
+        private tokenService: TokenService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -28,6 +30,8 @@ export class AtenderCita implements OnInit {
         if (codigoCita) {
             this.registro.codigoCita = +codigoCita;
         }
+        // Set the doctor's code from the token
+        this.registro.codigoMedico = this.tokenService.getCodigo();
     }
 
     atenderCita(): void {

@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { PacienteService } from '../../../servicios/paciente.service';
-import { TokenService } from '../../../servicios/token';
-import { ItemPqrsDTO } from '../../../modelo/item-pqrs-dto';
+import { PacienteService } from '../../../../servicios/paciente.service';
+import { TokenService } from '../../../../servicios/token';
+import { ItemPqrsDTO } from '../../../../modelo/item-pqrs-dto';
 
 @Component({
   selector: 'app-mis-pqrs',

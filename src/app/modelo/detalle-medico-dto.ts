@@ -8,4 +8,7 @@ export class DetalleMedicoDTO {
     urlFoto: string = '';
     ciudad: { codigo: number; nombre: string } = { codigo: 0, nombre: '' };
     especialidad: { codigo: number; nombre: string } = { codigo: 0, nombre: '' };
+    horaInicio?: any; // Optional - start time for doctor's schedule
+    horaFin?: any; // Optional - end time for doctor's schedule
+    horarios?: any[]; // Optional - array of schedule details
 }

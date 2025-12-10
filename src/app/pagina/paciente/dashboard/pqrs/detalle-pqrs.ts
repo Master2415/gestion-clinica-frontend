@@ -2,10 +2,10 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PacienteService } from '../../../servicios/paciente.service';
-import { TokenService } from '../../../servicios/token';
-import { InfoPQRSDTO } from '../../../modelo/info-pqrs-dto';
-import { RespuestaPacientePqrsDTO } from '../../../modelo/respuesta-paciente-pqrs-dto';
+import { PacienteService } from '../../../../servicios/paciente.service';
+import { TokenService } from '../../../../servicios/token';
+import { InfoPQRSDTO } from '../../../../modelo/info-pqrs-dto';
+import { RespuestaPacientePqrsDTO } from '../../../../modelo/respuesta-paciente-pqrs-dto';
 
 @Component({
   selector: 'app-detalle-pqrs-paciente',

@@ -25,8 +25,12 @@ export class PacienteService {
     return this.http.post<MensajeDTO<number>>(`${this.pacienteURL}/agendar-cita`, dto);
   }
 
-  public cancelarCita(codigoCita: number): Observable<MensajeDTO<string>> {
-    return this.http.delete<MensajeDTO<string>>(`${this.pacienteURL}/cancelar-cita/${codigoCita}`);
+  public verDetalleCita(codigoCita: number): Observable<MensajeDTO<any>> {
+    return this.http.get<MensajeDTO<any>>(`${this.pacienteURL}/detalle-cita/${codigoCita}`);
+  }
+
+  public cancelarCita(codigoCita: number, codigoPaciente: number): Observable<MensajeDTO<string>> {
+    return this.http.put<MensajeDTO<string>>(`${this.pacienteURL}/cancelar-cita/${codigoCita}/${codigoPaciente}`, {});
   }
 
   public listarHistorialMedico(codigoPaciente: number): Observable<MensajeDTO<HistorialMedicoDTO[]>> {

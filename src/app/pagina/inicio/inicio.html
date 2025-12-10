@@ -1,30 +1,278 @@
-<div class="inicio-container">
-  <div class="header">
-    <h1>Bienvenido{{ isAuthenticated ? ', ' + userName : '' }}</h1>
-    <button *ngIf="!isAuthenticated" class="btn-login" (click)="goToLogin()">Iniciar Sesión</button>
-    <button *ngIf="isAuthenticated" class="btn-logout" (click)="logout()">Cerrar Sesión</button>
-  </div>
+<!DOCTYPE html>
+<!-- Modern Landing Page for Clínica Master2415 -->
+<div class="landing-page">
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <i class="bi bi-hospital-fill"></i>
+          <span class="logo-text">Clínica <strong>Master2415</strong></span>
+        </div>
 
-  <div class="content">
-    <div class="welcome-card">
-      <h2>Sistema de Gestión de Clínica</h2>
-      <p>Has iniciado sesión exitosamente en el sistema.</p>
+        <nav class="nav-desktop">
+          <a (click)="scrollToSection('servicios')" class="nav-link">Servicios</a>
+          <a (click)="scrollToSection('nosotros')" class="nav-link">Nosotros</a>
+          <a (click)="scrollToSection('contacto')" class="nav-link">Contacto</a>
+          <button (click)="goToLogin()" class="btn-login-header">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Iniciar Sesión
+          </button>
+        </nav>
 
-      <div class="info-section">
-        <h3>Funcionalidades Disponibles:</h3>
-        <ul>
-          <li>✓ Gestión de citas médicas</li>
-          <li>✓ Consulta de historial médico</li>
-          <li>✓ Gestión de PQRS</li>
-          <li>✓ Actualización de perfil</li>
-        </ul>
+        <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+          <i [class]="mobileMenuOpen ? 'bi bi-x-lg' : 'bi bi-list'"></i>
+        </button>
       </div>
 
-      <div class="status-section">
-        <p class="status-text">
-          <strong>Estado:</strong> <span class="status-active">Sesión Activa</span>
+      <!-- Mobile Menu -->
+      <nav class="nav-mobile" [class.active]="mobileMenuOpen">
+        <a (click)="scrollToSection('servicios')" class="nav-link-mobile">Servicios</a>
+        <a (click)="scrollToSection('nosotros')" class="nav-link-mobile">Nosotros</a>
+        <a (click)="scrollToSection('contacto')" class="nav-link-mobile">Contacto</a>
+        <button (click)="goToLogin()" class="btn-login-mobile">
+          <i class="bi bi-box-arrow-in-right"></i>
+          Iniciar Sesión
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content text-center mx-auto">
+        <h1 class="hero-title">Bienvenido a <span class="highlight">Clínica Master2415</span></h1>
+        <p class="hero-subtitle mx-auto">
+          Tu salud es nuestra prioridad. Atención médica profesional, confiable y de calidad.
         </p>
+        <div class="hero-buttons justify-content-center">
+          <button (click)="goToLogin()" class="btn-primary-large">
+            <i class="bi bi-person-check-fill"></i>
+            Iniciar Sesión
+          </button>
+          <button routerLink="/registro" class="btn-secondary-large">
+            <i class="bi bi-person-plus-fill"></i>
+            Registrarse
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Servicios Section -->
+  <section class="section servicios" id="servicios">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <p class="section-subtitle">Ofrecemos atención integral para tu bienestar</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-calendar-check"></i>
+          </div>
+          <h3>Citas Médicas</h3>
+          <p>Agenda y gestiona tus citas médicas de forma rápida y sencilla</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-file-medical"></i>
+          </div>
+          <h3>Historial Médico</h3>
+          <p>Accede a tu historial clínico completo en cualquier momento</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-chat-dots"></i>
+          </div>
+          <h3>PQRS</h3>
+          <p>Sistema de peticiones, quejas, reclamos y sugerencias</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <h3>Especialistas</h3>
+          <p>Equipo médico altamente calificado en diversas especialidades</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <h3>Atención 24/7</h3>
+          <p>Servicio de urgencias disponible las 24 horas del día</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h3>Seguridad</h3>
+          <p>Protección y confidencialidad de tu información médica</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nosotros Section -->
+  <section class="section nosotros" id="nosotros">
+    <div class="container">
+      <div class="nosotros-content align-items-center">
+        <div class="nosotros-text">
+          <h2 class="section-title mb-4">Sobre Nosotros</h2>
+          <p class="about-description">
+            <strong>Clínica Master2415</strong> es una institución de salud comprometida con el
+            bienestar de nuestros pacientes. Contamos con tecnología de punta y un equipo médico
+            altamente capacitado para brindarte la mejor atención.
+          </p>
+          <div class="features-list mt-4">
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Más de 10 años de experiencia</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Médicos especialistas certificados</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Tecnología médica avanzada</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Atención personalizada</span>
+            </div>
+          </div>
+        </div>
+        <div class="nosotros-stats">
+          <div class="stat-card">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Pacientes Atendidos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Médicos Especialistas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Satisfacción</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Atención</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto Section -->
+  <section class="section contacto" id="contacto">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Contáctanos</h2>
+        <p class="section-subtitle">Estamos aquí para atenderte</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-telephone-fill"></i>
+          </div>
+          <h3>Teléfono</h3>
+          <p>+57 300 123 4567</p>
+          <p>+57 (6) 123 4567</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-envelope-fill"></i>
+          </div>
+          <h3>Email</h3>
+          <p>info@clinicamaster2415.com</p>
+          <p>citas@clinicamaster2415.com</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <h3>Ubicación</h3>
+          <p>Calle 123 #45-67</p>
+          <p>Ciudad, Colombia</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="bi bi-clock-fill"></i>
+          </div>
+          <h3>Horarios</h3>
+          <p>Lunes - Viernes: 7:00 AM - 7:00 PM</p>
+          <p>Sábados: 8:00 AM - 2:00 PM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <i class="bi bi-hospital-fill"></i>
+            <span>Clínica <strong>Master2415</strong></span>
+          </div>
+          <p class="footer-description">
+            Comprometidos con tu salud y bienestar. Atención médica de calidad con tecnología de
+            punta.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contacto</h4>
+          <ul class="footer-links">
+            <li><i class="bi bi-telephone"></i> +57 300 123 4567</li>
+            <li><i class="bi bi-envelope"></i> info@clinicamaster2415.com</li>
+            <li><i class="bi bi-geo-alt"></i> Calle 123 #45-67, Ciudad</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Horarios</h4>
+          <ul class="footer-links">
+            <li>Lunes - Viernes</li>
+            <li>7:00 AM - 7:00 PM</li>
+            <li class="mt-2">Sábados</li>
+            <li>8:00 AM - 2:00 PM</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Síguenos</h4>
+          <div class="social-links">
+            <a href="https://github.com/master2415" target="_blank" class="social-link">
+              <i class="bi bi-github"></i>
+            </a>
+          </div>
+          <p class="github-text">
+            <i class="bi bi-code-slash"></i>
+            Desarrollado por
+            <a href="https://github.com/master2415" target="_blank"><strong>master2415</strong></a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clínica Master2415. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
 </div>

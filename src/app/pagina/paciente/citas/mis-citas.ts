@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PacienteService } from '../../../servicios/paciente.service';
 import { TokenService } from '../../../servicios/token';
@@ -15,10 +15,14 @@ export class MisCitas implements OnInit {
   citas: CitaPacienteDTO[] = [];
   isLoading = true;
   codigoPaciente = 0;
+  expandedCitaId: number | null = null;
+  showCancelModal = false;
+  citaToCancel: CitaPacienteDTO | null = null;
 
   constructor(
     private pacienteService: PacienteService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,21 +38,51 @@ export class MisCitas implements OnInit {
           this.citas = response.respuesta;
         }
         this.isLoading = false;
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading appointments:', error);
         this.isLoading = false;
+        this.cd.detectChanges();
       }
     });
   }
 
-  cancelarCita(codigoCita: number): void {
-    if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-      this.pacienteService.cancelarCita(codigoCita).subscribe({
-        next: () => {
+  toggleDetalle(codigoCita: number): void {
+    if (this.expandedCitaId === codigoCita) {
+      this.expandedCitaId = null;
+    } else {
+      this.expandedCitaId = codigoCita;
+    }
+  }
+
+  isExpanded(codigoCita: number): boolean {
+    return this.expandedCitaId === codigoCita;
+  }
+
+  abrirModalCancelacion(cita: CitaPacienteDTO): void {
+    this.citaToCancel = cita;
+    this.showCancelModal = true;
+  }
+
+  cerrarModal(): void {
+    this.showCancelModal = false;
+    this.citaToCancel = null;
+  }
+
+  confirmarCancelacion(): void {
+    if (this.citaToCancel) {
+      this.pacienteService.cancelarCita(this.citaToCancel.codigo, this.codigoPaciente).subscribe({
+        next: (response) => {
+          alert(response.respuesta || 'Cita cancelada exitosamente');
+          this.cerrarModal();
           this.loadCitas();
         },
-        error: (error) => console.error('Error cancelling appointment:', error)
+        error: (error) => {
+          console.error('Error cancelling appointment:', error);
+          alert('Error al cancelar la cita: ' + (error.error?.respuesta || 'Error desconocido'));
+          this.cerrarModal();
+        }
       });
     }
   }

@@ -17,6 +17,7 @@ export class Login {
   loginDTO: LoginDTO = new LoginDTO();
   errorMessage: string = '';
   isLoading: boolean = false;
+  mobileMenuOpen: boolean = false;
 
   constructor(
     private authService: Auth,
@@ -62,4 +63,3 @@ export class Login {
     });
   }
 }
-

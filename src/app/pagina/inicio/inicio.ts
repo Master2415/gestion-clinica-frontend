@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TokenService } from '../../servicios/token';
 
 @Component({
   selector: 'app-inicio',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
 })
 export class Inicio implements OnInit {
   isAuthenticated: boolean = false;
   userName: string = 'Usuario';
+  mobileMenuOpen: boolean = false;
 
   constructor(private tokenService: TokenService, private router: Router) {}
 
@@ -33,5 +34,19 @@ export class Inicio implements OnInit {
 
   logout(): void {
     this.tokenService.logout();
+    this.isAuthenticated = false;
+    this.userName = '';
+  }
+
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.mobileMenuOpen = false; // Close mobile menu after navigation
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 }

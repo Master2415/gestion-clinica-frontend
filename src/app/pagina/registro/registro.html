@@ -1,8 +1,31 @@
-<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5 bg-light">
+<div class="landing-page d-flex flex-column min-vh-100">
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a routerLink="/inicio" class="logo">
+          <i class="bi bi-hospital-fill"></i>
+          <span class="logo-text">Clínica <strong>Master2415</strong></span>
+        </a>
+        
+        <nav class="nav-desktop">
+          <a routerLink="/inicio" class="nav-link">Volver al Inicio</a>
+          <a routerLink="/login" class="btn-login-header">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Iniciar Sesión
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 bg-light">
     <div class="card shadow-lg border-0" style="max-width: 800px; width: 100%;">
         <div class="card-header bg-primary text-white text-center py-4">
-            <h2 class="mb-0 fw-bold"><i class="bi bi-hospital me-2"></i>Clínica Tu Salud</h2>
-            <p class="mb-0 mt-2 opacity-75">Registro de Nuevo Paciente</p>
+            <h2 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Registro de Paciente</h2>
+            <p class="mb-0 mt-2 opacity-75">Únete a nuestra comunidad de salud</p>
         </div>
 
         <div class="card-body p-4 p-md-5">
@@ -80,6 +103,9 @@
                                 {{ tipo.nombre }}
                             </option>
                         </select>
+                         <div class="form-text text-muted" *ngIf="tiposSangre.length === 0">
+                            <i class="bi bi-info-circle me-1"></i>Cargando tipos de sangre...
+                        </div>
                     </div>
                 </div>
 
@@ -150,12 +176,60 @@
 
             </form>
         </div>
-
-        <div class="card-footer bg-light text-center py-3 border-top">
-            <small class="text-muted">
-                <i class="bi bi-github me-1"></i>Desarrollado por <a href="https://github.com/master2415"
-                    target="_blank" class="text-decoration-none text-muted fw-bold">master2415</a>
-            </small>
-        </div>
     </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <i class="bi bi-hospital-fill"></i>
+            <span>Clínica <strong>Master2415</strong></span>
+          </div>
+          <p class="footer-description">
+            Comprometidos con tu salud y bienestar. Atención médica de calidad con tecnología de punta.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contacto</h4>
+          <ul class="footer-links">
+            <li><i class="bi bi-telephone"></i> +57 300 123 4567</li>
+            <li><i class="bi bi-envelope"></i> info@clinicamaster2415.com</li>
+            <li><i class="bi bi-geo-alt"></i> Calle 123 #45-67, Ciudad</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Horarios</h4>
+          <ul class="footer-links">
+            <li>Lunes - Viernes</li>
+            <li>7:00 AM - 7:00 PM</li>
+            <li class="mt-2">Sábados</li>
+            <li>8:00 AM - 2:00 PM</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Síguenos</h4>
+          <div class="social-links">
+            <a href="https://github.com/master2415" target="_blank" class="social-link">
+              <i class="bi bi-github"></i>
+            </a>
+          </div>
+          <p class="github-text">
+            <i class="bi bi-code-slash"></i>
+            Desarrollado por <a href="https://github.com/master2415" target="_blank"><strong>master2415</strong></a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clínica Master2415. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
 </div>

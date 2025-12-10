@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PacienteService } from '../../../servicios/paciente.service';
-import { TokenService } from '../../../servicios/token';
-import { CrearPqrsDTO } from '../../../modelo/crear-pqrs-dto';
-import { CitaPacienteDTO } from '../../../modelo/cita-paciente-dto';
+import { PacienteService } from '../../../../servicios/paciente.service';
+import { TokenService } from '../../../../servicios/token';
+import { CrearPqrsDTO } from '../../../../modelo/crear-pqrs-dto';
+import { CitaPacienteDTO } from '../../../../modelo/cita-paciente-dto';
 
 @Component({
   selector: 'app-crear-pqrs',

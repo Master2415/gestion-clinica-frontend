@@ -19,7 +19,7 @@ export class AgendarCita implements OnInit {
     codigoPaciente: 0,
     codigoMedico: 0,
     motivo: '',
-    fechaCita: ''
+    fecha: ''
   };
   
   medicos: ItemMedicoDTO[] = [];
@@ -69,7 +69,7 @@ export class AgendarCita implements OnInit {
   }
 
   agendar(): void {
-    if (!this.agendarCitaDTO.codigoMedico || !this.agendarCitaDTO.fechaCita || !this.agendarCitaDTO.motivo) {
+    if (!this.agendarCitaDTO.codigoMedico || !this.agendarCitaDTO.fecha || !this.agendarCitaDTO.motivo) {
       this.errorMessage = 'Por favor complete todos los campos';
       return;
     }

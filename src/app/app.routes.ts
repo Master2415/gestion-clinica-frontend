@@ -21,9 +21,9 @@ import { PacienteDashboard } from './pagina/paciente/dashboard/paciente-dashboar
 import { AgendarCita } from './pagina/paciente/citas/agendar-cita';
 import { MisCitas } from './pagina/paciente/citas/mis-citas';
 import { HistorialMedico } from './pagina/paciente/historial/historial-medico';
-import { CrearPqrs } from './pagina/paciente/pqrs/crear-pqrs';
-import { MisPqrs } from './pagina/paciente/pqrs/mis-pqrs';
-import { DetallePqrsPaciente } from './pagina/paciente/pqrs/detalle-pqrs';
+import { CrearPqrs } from './pagina/paciente/dashboard/pqrs/crear-pqrs';
+import { MisPqrs } from './pagina/paciente/dashboard/pqrs/mis-pqrs';
+import { DetallePqrsPaciente } from './pagina/paciente/dashboard/pqrs/detalle-pqrs';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -42,8 +42,8 @@ export const routes: Routes = [
       { path: 'citas', component: ListarCitas },
       { path: 'pqrs', component: ListarPqrs },
       { path: 'pqrs/:codigo', component: DetallePqrs },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
   },
   {
     path: 'medico',
@@ -55,8 +55,8 @@ export const routes: Routes = [
       { path: 'atender-cita/:codigo', component: AtenderCita },
       { path: 'historial', component: HistorialCitas },
       { path: 'agenda', component: Agenda },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
   },
   {
     path: 'paciente',
@@ -70,7 +70,7 @@ export const routes: Routes = [
       { path: 'crear-pqrs', component: CrearPqrs },
       { path: 'mis-pqrs', component: MisPqrs },
       { path: 'mis-pqrs/:codigo', component: DetallePqrsPaciente },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-    ]
-  }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
 ];

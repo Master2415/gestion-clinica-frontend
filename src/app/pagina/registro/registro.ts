@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
+
 import { Auth } from '../../servicios/auth';
 import { RegistroPacienteDTO } from '../../modelo/registro-paciente-dto';
 import { ClinicaService } from '../../servicios/clinica.service';
@@ -16,7 +16,6 @@ import { TipoSangre } from '../../modelo/tipo-sangre';
   styleUrl: './registro.css',
 })
 export class Registro implements OnInit {
-
   paciente: RegistroPacienteDTO = new RegistroPacienteDTO();
   errorMessage: string = '';
   successMessage: string = '';
@@ -29,38 +28,48 @@ export class Registro implements OnInit {
     private authService: Auth,
     private clinicaService: ClinicaService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.cargarDatosParalelo();
+    this.cargarCiudades();
+    this.cargarTiposSangre();
   }
 
-  // Carga paralela de ciudades y tipos de sangre para mejorar el rendimiento
-  cargarDatosParalelo(): void {
-    forkJoin({
-      ciudades: this.clinicaService.listarCiudades(),
-      tiposSangre: this.clinicaService.listarTiposSangre()
-    }).subscribe({
+  cargarCiudades(): void {
+    this.clinicaService.listarCiudades().subscribe({
       next: (response) => {
-        if (response.ciudades.respuesta) {
-          this.ciudades = response.ciudades.respuesta;
+        if (response.respuesta) {
+          this.ciudades = response.respuesta;
           console.log('Ciudades cargadas:', this.ciudades.length);
-        }
-        if (response.tiposSangre.respuesta) {
-          this.tiposSangre = response.tiposSangre.respuesta;
-          console.log('Tipos de sangre cargados:', this.tiposSangre.length);
+        } else {
+          console.warn('La respuesta de ciudades vino vacía o sin propiedad respuesta');
         }
       },
       error: (error) => {
-        console.error('Error al cargar datos:', error);
-        this.errorMessage = 'Error al cargar los datos del formulario. Por favor, recargue la página.';
-      }
+        console.error('Error al cargar ciudades:', error);
+      },
+    });
+  }
+
+  cargarTiposSangre(): void {
+    this.clinicaService.listarTiposSangre().subscribe({
+      next: (response) => {
+        if (response.respuesta) {
+          this.tiposSangre = response.respuesta;
+          console.log('Tipos de sangre cargados:', this.tiposSangre.length);
+        } else {
+          console.warn('La respuesta de tipos de sangre vino vacía o sin propiedad respuesta');
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar tipos de sangre:', error);
+      },
     });
   }
 
   onCiudadChange(event: any): void {
     const codigo = parseInt(event.target.value);
-    const ciudadSeleccionada = this.ciudades.find(c => c.codigo === codigo);
+    const ciudadSeleccionada = this.ciudades.find((c) => c.codigo === codigo);
 
     if (ciudadSeleccionada) {
       this.paciente.ciudad = ciudadSeleccionada;
@@ -71,7 +80,7 @@ export class Registro implements OnInit {
 
   onTipoSangreChange(event: any): void {
     const codigo = parseInt(event.target.value);
-    const tipoSeleccionado = this.tiposSangre.find(t => t.codigo === codigo);
+    const tipoSeleccionado = this.tiposSangre.find((t) => t.codigo === codigo);
 
     if (tipoSeleccionado) {
       this.paciente.tipoSangre = tipoSeleccionado;
@@ -85,14 +94,24 @@ export class Registro implements OnInit {
     this.successMessage = '';
 
     // Validación básica
-    if (!this.paciente.cedula || !this.paciente.nombre || !this.paciente.correo || !this.paciente.contrasena || !this.paciente.celular || !this.paciente.urlFoto || !this.paciente.alergias || !this.paciente.fechaNacimiento || this.paciente.ciudad.codigo === 0) {
+    if (
+      !this.paciente.cedula ||
+      !this.paciente.nombre ||
+      !this.paciente.correo ||
+      !this.paciente.contrasena ||
+      !this.paciente.celular ||
+      !this.paciente.urlFoto ||
+      !this.paciente.alergias ||
+      !this.paciente.fechaNacimiento ||
+      this.paciente.ciudad.codigo === 0
+    ) {
       this.errorMessage = 'Por favor complete todos los campos obligatorios';
       return;
     }
 
     // Validaciones manuales adicionales
     if (!this.paciente.ciudad || this.paciente.ciudad.codigo === 0) {
-      this.errorMessage = "Debe seleccionar una ciudad";
+      this.errorMessage = 'Debe seleccionar una ciudad';
       return;
     }
 
@@ -128,7 +147,7 @@ export class Registro implements OnInit {
 
         this.errorMessage = mensajeError;
         this.isLoading = false;
-      }
+      },
     });
   }
 }
