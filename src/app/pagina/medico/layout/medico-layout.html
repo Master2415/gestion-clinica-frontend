@@ -1,46 +1,87 @@
-<div class="medico-container">
+<div class="app-container">
   <!-- Sidebar -->
   <aside class="sidebar" [class.sidebar-collapsed]="!isSidebarOpen">
     <div class="sidebar-header">
-      <h2 *ngIf="isSidebarOpen">Panel Médico</h2>
+      <div class="logo-container" *ngIf="isSidebarOpen">
+        <i class="bi bi-heart-pulse-fill logo-icon"></i>
+        <span class="logo-text">Medi<span class="text-highlight">Plus</span></span>
+      </div>
       <button class="toggle-btn" (click)="toggleSidebar()">
-        <span>☰</span>
+        <i class="bi bi-list"></i>
       </button>
     </div>
 
+    <div class="user-profile-mini" *ngIf="isSidebarOpen">
+      <div class="avatar-circle">
+        <i class="bi bi-person-fill"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. {{ medicoName }}</span>
+        <span class="user-role">Médico Especialista</span>
+      </div>
+    </div>
+
     <nav class="sidebar-nav">
+      <div class="nav-section" *ngIf="isSidebarOpen">
+        <span class="section-label">PRINCIPAL</span>
+      </div>
+      
       <a routerLink="/medico/dashboard" routerLinkActive="active" class="nav-item">
-        <span class="icon">📊</span>
+        <i class="bi bi-grid-1x2-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">Dashboard</span>
       </a>
+
+      <div class="nav-section" *ngIf="isSidebarOpen">
+        <span class="section-label">GESTIÓN</span>
+      </div>
+
       <a routerLink="/medico/citas-pendientes" routerLinkActive="active" class="nav-item">
-        <span class="icon">📋</span>
+        <i class="bi bi-calendar-check-fill nav-icon"></i>
         <span *ngIf="isSidebarOpen" class="label">Citas Pendientes</span>
       </a>
-      <a routerLink="/medico/historial" routerLinkActive="active" class="nav-item">
-        <span class="icon">📚</span>
-        <span *ngIf="isSidebarOpen" class="label">Historial</span>
-      </a>
+      
       <a routerLink="/medico/agenda" routerLinkActive="active" class="nav-item">
-        <span class="icon">📅</span>
-        <span *ngIf="isSidebarOpen" class="label">Agenda</span>
+        <i class="bi bi-calendar-week-fill nav-icon"></i>
+        <span *ngIf="isSidebarOpen" class="label">Mi Agenda</span>
+      </a>
+
+      <a routerLink="/medico/historial" routerLinkActive="active" class="nav-item">
+        <i class="bi bi-journal-medical nav-icon"></i>
+        <span *ngIf="isSidebarOpen" class="label">Historial Pacientes</span>
       </a>
     </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout-sidebar" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        <span *ngIf="isSidebarOpen">Cerrar Sesión</span>
+      </button>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <div class="main-content">
     <!-- Toolbar -->
     <header class="toolbar">
-      <h1>Sistema de Gestión Médica</h1>
+      <div class="toolbar-left">
+        <h1 class="page-title">Portal Médico</h1>
+      </div>
       <div class="toolbar-actions">
-        <span class="medico-name">Dr. {{ medicoName }}</span>
-        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+        <div class="notification-badge">
+          <i class="bi bi-bell"></i>
+          <span class="badge-dot"></span>
+        </div>
+        <div class="user-profile-dropdown">
+          <span class="medico-name">Dr. {{ medicoName }}</span>
+          <div class="avatar-circle-sm">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        </div>
       </div>
     </header>
 
     <!-- Content Area -->
-    <main class="content">
+    <main class="content-wrapper">
       <router-outlet></router-outlet>
     </main>
   </div>

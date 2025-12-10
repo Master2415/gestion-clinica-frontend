@@ -9,55 +9,125 @@ import { DetalleAtencionMedicaDTO } from '../../../modelo/detalle-atencion-medic
     selector: 'app-historial-citas',
     imports: [CommonModule, RouterLink],
     template: `
-    <div class="historial-page">
+    <div class="page-container">
         <div class="page-header">
-            <h2>Historial de Citas</h2>
-            <a routerLink="/medico/dashboard" class="btn-secondary">← Volver</a>
+            <div class="header-content">
+                <h2 class="page-title">Historial de Citas</h2>
+                <p class="page-subtitle">Registro completo de atenciones realizadas</p>
+            </div>
+            <a routerLink="/medico/dashboard" class="btn-back">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
         </div>
 
-        <div *ngIf="isLoading" class="loading">Cargando historial...</div>
+        <div class="loading-state" *ngIf="isLoading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p>Cargando historial...</p>
+        </div>
 
         <div *ngIf="!isLoading && citas.length === 0" class="empty-state">
-            <div class="empty-icon">📚</div>
-            <p>No hay citas en el historial</p>
+            <div class="empty-icon">
+                <i class="bi bi-journal-x"></i>
+            </div>
+            <h3>No hay citas en el historial</h3>
+            <p>Aún no ha realizado ninguna atención médica.</p>
         </div>
 
         <div *ngIf="!isLoading && citas.length > 0" class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Paciente</th>
-                        <th>Diagnóstico</th>
-                        <th>Tratamiento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let cita of citas">
-                        <td>{{ cita.fechaAtencion | date:'short' }}</td>
-                        <td>{{ cita.nombrePaciente }}</td>
-                        <td>{{ cita.diagnostico }}</td>
-                        <td>{{ cita.tratamiento }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Paciente</th>
+                            <th>Diagnóstico</th>
+                            <th>Tratamiento</th>
+                            <th>Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cita of citas">
+                            <td>
+                                <div class="date-wrapper">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <span>{{ cita.fechaAtencion | date:'mediumDate' }}</span>
+                                </div>
+                                <small class="text-muted">{{ cita.fechaAtencion | date:'shortTime' }}</small>
+                            </td>
+                            <td>
+                                <div class="patient-wrapper">
+                                    <div class="avatar-xs">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <span class="patient-name">{{ cita.nombrePaciente }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-truncate-2">{{ cita.diagnostico }}</div>
+                            </td>
+                            <td>
+                                <div class="text-truncate-2">{{ cita.tratamiento }}</div>
+                            </td>
+                            <td>
+                                <div class="text-truncate-2 text-muted">{{ cita.notasMedicas || 'Sin notas adicionales' }}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
   `,
     styles: [`
-    .historial-page { max-width: 1200px; margin: 0 auto; }
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-    h2 { margin: 0; color: #2c3e50; font-size: 2rem; }
-    .btn-secondary { padding: 0.75rem 1.5rem; background: #95a5a6; color: white; text-decoration: none; border-radius: 6px; transition: all 0.3s; }
-    .btn-secondary:hover { background: #7f8c8d; }
-    .loading { text-align: center; padding: 3rem; color: #7f8c8d; font-size: 1.2rem; }
-    .empty-state { text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .empty-icon { font-size: 5rem; margin-bottom: 1rem; opacity: 0.5; }
-    .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #ecf0f1; }
-    th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; }
-    tr:hover { background: #f8f9fa; }
+    .page-container { max-width: 1200px; margin: 0 auto; animation: fadeIn 0.4s ease-out; }
+    
+    /* Header */
+    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+    .page-title { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem 0; }
+    .page-subtitle { color: var(--text-secondary); font-size: 1rem; margin: 0; }
+    
+    .btn-back { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: white; color: var(--text-secondary); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; font-weight: 500; text-decoration: none; transition: all 0.2s; box-shadow: var(--shadow-sm); }
+    .btn-back:hover { background: var(--neutral-light); color: var(--text-primary); transform: translateX(-2px); }
+
+    /* Table Styling */
+    .table-container { background: white; border-radius: 16px; box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); }
+    .table-responsive { overflow-x: auto; }
+    
+    .custom-table { width: 100%; border-collapse: collapse; }
+    .custom-table th { background: #f8fafc; padding: 1rem 1.5rem; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+    .custom-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid #f1f5f9; color: var(--text-primary); vertical-align: top; }
+    .custom-table tr:last-child td { border-bottom: none; }
+    .custom-table tr:hover { background: #f8fafc; }
+
+    /* Cell Content */
+    .date-wrapper { display: flex; align-items: center; gap: 0.5rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .date-wrapper i { color: var(--primary-cyan); }
+    
+    .patient-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+    .avatar-xs { width: 32px; height: 32px; background: var(--neutral-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 1rem; flex-shrink: 0; }
+    .patient-name { font-weight: 600; color: var(--text-primary); }
+    
+    .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 250px; line-height: 1.5; font-size: 0.95rem; }
+    .text-muted { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* Empty State */
+    .empty-state { text-align: center; padding: 4rem 2rem; background: white; border-radius: 16px; box-shadow: var(--shadow-sm); border: 1px dashed rgba(0,0,0,0.1); }
+    .empty-icon { width: 80px; height: 80px; background: var(--neutral-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-secondary); font-size: 2.5rem; }
+    .empty-state h3 { color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 600; }
+    .empty-state p { color: var(--text-secondary); margin: 0; }
+
+    /* Loading State */
+    .loading-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem; color: var(--text-secondary); gap: 1rem; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    @media (max-width: 768px) {
+        .page-header { flex-direction: column; align-items: flex-start; }
+        .btn-back { width: 100%; justify-content: center; }
+        .text-truncate-2 { max-width: 150px; }
+    }
   `]
 })
 export class HistorialCitas implements OnInit {

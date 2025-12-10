@@ -1,21 +1,25 @@
-.medico-container {
+.app-container {
   display: flex;
   height: 100vh;
-  background: var(--bg-primary, #f5f7fa);
+  background: var(--bg-primary);
+  overflow: hidden;
 }
 
+/* Sidebar Styling */
 .sidebar {
-  width: 250px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  transition: width 0.3s ease;
+  width: 280px;
+  background: white;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar-collapsed {
-  width: 70px;
+  width: 80px;
 }
 
 .sidebar-header {
@@ -23,92 +27,212 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  height: 70px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.sidebar-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.logo-icon {
+  color: var(--primary-cyan);
+  font-size: 1.5rem;
+}
+
+.text-highlight {
+  color: var(--primary-cyan);
 }
 
 .toggle-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: white;
-  font-size: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1.25rem;
   cursor: pointer;
   padding: 0.5rem;
-  transition: transform 0.3s;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-btn:hover {
-  transform: scale(1.1);
+  background: var(--neutral-light);
+  color: var(--primary-cyan);
 }
 
+/* User Profile Mini */
+.user-profile-mini {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+}
+
+.avatar-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-cyan);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Navigation */
 .sidebar-nav {
   flex: 1;
-  padding: 1rem 0;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-section {
+  padding: 0.75rem 1rem 0.5rem;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  padding: 0.875rem 1rem;
+  color: var(--text-secondary);
   text-decoration: none;
-  transition: all 0.3s;
+  transition: all 0.2s ease;
   cursor: pointer;
-  border-left: 4px solid transparent;
+  border-radius: 12px;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-left-color: white;
+  background: var(--neutral-light);
+  color: var(--primary-cyan);
 }
 
 .nav-item.active {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border-left-color: white;
+  background: #f0fdfa;
+  color: var(--primary-cyan);
   font-weight: 600;
 }
 
-.nav-item .icon {
-  font-size: 1.5rem;
-  margin-right: 1rem;
+.nav-icon {
+  font-size: 1.25rem;
   min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sidebar-collapsed .nav-item .label {
+.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding: 1rem;
+}
+
+.sidebar-collapsed .nav-icon {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.label {
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-logout-sidebar {
+  width: 100%;
+  padding: 0.875rem;
+  background: #fef2f2;
+  color: #ef4444;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all 0.2s;
+}
+
+.btn-logout-sidebar:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.sidebar-collapsed .btn-logout-sidebar span {
   display: none;
 }
 
+/* Main Content */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
+/* Toolbar */
 .toolbar {
   background: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 2rem;
+  height: 70px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 40;
 }
 
-.toolbar h1 {
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
   margin: 0;
-  font-size: 1.5rem;
-  color: var(--text-primary, #2c3e50);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .toolbar-actions {
@@ -117,42 +241,82 @@
   gap: 1.5rem;
 }
 
-.medico-name {
-  color: var(--text-secondary, #7f8c8d);
-  font-weight: 500;
-}
-
-.btn-logout {
-  padding: 0.5rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 6px;
+.notification-badge {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--neutral-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s;
 }
 
-.btn-logout:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+.notification-badge:hover {
+  background: #e2e8f0;
+  color: var(--primary-cyan);
 }
 
-.content {
+.badge-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.user-profile-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.user-profile-dropdown:hover {
+  background: var(--neutral-light);
+}
+
+.medico-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.avatar-circle-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--primary-cyan);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+/* Content Wrapper */
+.content-wrapper {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
-  background: var(--bg-primary, #f5f7fa);
+  overflow-x: hidden;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: -250px;
+    left: -280px;
     height: 100vh;
-    z-index: 1000;
   }
 
   .sidebar.sidebar-open {
@@ -160,14 +324,18 @@
   }
 
   .sidebar-collapsed {
-    left: -70px;
+    left: -80px;
   }
 
-  .toolbar h1 {
-    font-size: 1.2rem;
+  .toolbar {
+    padding: 0 1rem;
   }
 
-  .content {
+  .medico-name {
+    display: none;
+  }
+
+  .content-wrapper {
     padding: 1rem;
   }
 }

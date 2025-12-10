@@ -16,6 +16,7 @@ export class MedicoDashboard implements OnInit {
     isLoading = true;
     codigoMedico = 0;
     userName = '';
+    today = new Date();
 
     constructor(
         private medicoService: MedicoService,

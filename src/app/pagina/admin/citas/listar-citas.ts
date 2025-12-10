@@ -194,8 +194,8 @@ export class ListarCitas implements OnInit {
     if (
       confirm('¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.')
     ) {
-      this.adminService.cambiarEstadoCita(codigoCita, 4).subscribe({
-        // 4 is CANCELADA
+      this.adminService.cambiarEstadoCita(codigoCita, 3).subscribe({
+        // 3 is CANCELADA
         next: (response) => {
           alert(response.respuesta || 'Cita cancelada exitosamente');
           this.ngOnInit(); // Reload list

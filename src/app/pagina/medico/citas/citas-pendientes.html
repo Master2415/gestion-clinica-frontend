@@ -1,43 +1,83 @@
-<div class="citas-page">
-    <div class="page-header">
-        <h2>Citas Pendientes</h2>
-        <a routerLink="/medico/dashboard" class="btn-secondary">← Volver al Dashboard</a>
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h2 class="page-title">Citas Pendientes</h2>
+      <p class="page-subtitle">Gestione las consultas programadas para hoy y próximos días</p>
     </div>
+    <a routerLink="/medico/dashboard" class="btn-back">
+      <i class="bi bi-arrow-left"></i> Volver al Dashboard
+    </a>
+  </div>
 
-    <div *ngIf="isLoading" class="loading">Cargando citas...</div>
-
-    <div *ngIf="!isLoading && citas.length === 0" class="empty-state">
-        <div class="empty-icon">📋</div>
-        <p>No hay citas pendientes</p>
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
     </div>
+    <p>Cargando citas...</p>
+  </div>
 
-    <div *ngIf="!isLoading && citas.length > 0" class="citas-grid">
-        <div *ngFor="let cita of citas" class="cita-card">
-            <div class="cita-header">
-                <h3>{{ cita.nombrePaciente }}</h3>
-                <span class="cita-badge">Pendiente</span>
-            </div>
-            <div class="cita-body">
-                <div class="cita-info">
-                    <span class="info-label">Cédula:</span>
-                    <span class="info-value">{{ cita.cedulaPaciente }}</span>
-                </div>
-                <div class="cita-info">
-                    <span class="info-label">Fecha:</span>
-                    <span class="info-value">{{ cita.fechaCita | date:'medium' }}</span>
-                </div>
-                <div class="cita-info">
-                    <span class="info-label">Motivo:</span>
-                    <span class="info-value">{{ cita.motivo }}</span>
-                </div>
-            </div>
-            <div class="cita-actions">
-                <a [routerLink]="['/medico/atender-cita', cita.codigoCita]" class="btn-primary">
-                    Atender Paciente
-                </a>
-            </div>
+  <div *ngIf="!isLoading && citas.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <i class="bi bi-calendar-check"></i>
+    </div>
+    <h3>No hay citas pendientes</h3>
+    <p>Actualmente no tiene consultas programadas en estado pendiente.</p>
+  </div>
+
+  <div *ngIf="!isLoading && citas.length > 0" class="citas-grid">
+    <div *ngFor="let cita of citas" class="cita-card">
+      <div class="cita-header">
+        <div class="patient-info">
+          <div class="avatar-placeholder">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div>
+            <h3>{{ cita.nombrePaciente }}</h3>
+            <span class="cedula">C.C. {{ cita.cedulaPaciente }}</span>
+          </div>
         </div>
-    </div>
+        <span class="status-badge pending"> <i class="bi bi-clock-fill"></i> Pendiente </span>
+      </div>
 
-    <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+      <div class="cita-body">
+        <div class="info-row">
+          <div class="info-item">
+            <i class="bi bi-calendar-event"></i>
+            <div class="info-content">
+              <span class="label">Fecha</span>
+              <span class="value">{{ cita.fechaConsulta | date : 'mediumDate' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="bi bi-clock"></i>
+            <div class="info-content">
+              <span class="label">Hora</span>
+              <span class="value">{{ cita.fechaConsulta | date : 'shortTime' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-row full-width">
+          <div class="info-item">
+            <i class="bi bi-chat-text"></i>
+            <div class="info-content">
+              <span class="label">Motivo de consulta</span>
+              <span class="value motivo-text">{{ cita.motivo }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cita-actions">
+        <a [routerLink]="['/medico/atender-cita', cita.codigo]" class="btn-attend">
+          <i class="bi bi-clipboard-pulse"></i> Atender Paciente
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+    <div>{{ errorMessage }}</div>
+  </div>
 </div>
