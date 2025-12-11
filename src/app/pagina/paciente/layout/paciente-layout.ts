@@ -13,6 +13,7 @@ import { TokenService } from '../../../servicios/token';
 export class PacienteLayout implements OnInit {
   sidebarCollapsed = false;
   nombrePaciente = '';
+  imagenUrl = '';
 
   constructor(
     private tokenService: TokenService,
@@ -21,6 +22,7 @@ export class PacienteLayout implements OnInit {
 
   ngOnInit(): void {
     this.nombrePaciente = this.tokenService.getNombre() || 'Paciente';
+    this.imagenUrl = this.tokenService.getImagenUrl();
   }
 
   toggleSidebar(): void {

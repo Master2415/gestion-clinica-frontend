@@ -8,6 +8,7 @@ import { RegistroPacienteDTO } from '../../modelo/registro-paciente-dto';
 import { ClinicaService } from '../../servicios/clinica.service';
 import { Ciudad } from '../../modelo/ciudad';
 import { TipoSangre } from '../../modelo/tipo-sangre';
+import { ImagenService } from '../../servicios/imagen.service';
 
 @Component({
   selector: 'app-registro',
@@ -27,7 +28,8 @@ export class Registro implements OnInit {
   constructor(
     private authService: Auth,
     private clinicaService: ClinicaService,
-    private router: Router
+    private router: Router,
+    private imagenService: ImagenService
   ) {}
 
   ngOnInit(): void {
@@ -149,5 +151,25 @@ export class Registro implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.isLoading = true;
+      this.imagenService.subir(file).subscribe({
+        next: (response) => {
+          if (response.respuesta) {
+            this.paciente.urlFoto = response.respuesta.url;
+            this.successMessage = 'Imagen subida exitosamente';
+            setTimeout(() => this.successMessage = '', 2000);
+          }
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al subir la imagen';
+          this.isLoading = false;
+        }
+      });
+    }
   }
 }

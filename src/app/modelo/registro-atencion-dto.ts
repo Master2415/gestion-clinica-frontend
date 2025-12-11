@@ -7,4 +7,5 @@ export class RegistroAtencionDTO {
     notasMedicas: string = '';
     medicamentos: any[] = [];
     descripcionReceta: string = '';
+    forzarAtencion?: boolean; // Flag para permitir atender antes de la fecha programada
 }

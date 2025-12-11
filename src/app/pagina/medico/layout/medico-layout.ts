@@ -11,8 +11,9 @@ import { TokenService } from '../../../servicios/token';
 })
 export class MedicoLayout implements OnInit {
 
-    isSidebarOpen = true;
+    sidebarCollapsed = false;
     medicoName = 'Doctor';
+    imagenUrl = '';
 
     constructor(
         private tokenService: TokenService,
@@ -25,14 +26,15 @@ export class MedicoLayout implements OnInit {
         if (nombre) {
             this.medicoName = nombre;
         }
+        this.imagenUrl = this.tokenService.getImagenUrl();
     }
 
     toggleSidebar(): void {
-        this.isSidebarOpen = !this.isSidebarOpen;
+        this.sidebarCollapsed = !this.sidebarCollapsed;
     }
 
     logout(): void {
-        this.tokenService.removeToken();
+        this.tokenService.logout();
         this.router.navigate(['/login']);
     }
 }

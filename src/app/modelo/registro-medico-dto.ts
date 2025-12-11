@@ -1,3 +1,5 @@
+import { HorarioDTO } from './horario-dto';
+
 export class RegistroMedicoDTO {
     cedula: string = '';
     nombre: string = '';
@@ -7,9 +9,7 @@ export class RegistroMedicoDTO {
     urlFoto: string = '';
     ciudad: { codigo: number; nombre: string } = { codigo: 0, nombre: '' };
     especialidad: { codigo: number; nombre: string } = { codigo: 0, nombre: '' };
-    horarios: any[] = [];
+    horarios: HorarioDTO[] = [];
     estadoMedico: { codigo: number; nombre: string } = { codigo: 1, nombre: 'ACTIVO' };
     password: string = '';
-    horaInicio?: any; // Optional for edit mode
-    horaFin?: any; // Optional for edit mode
 }

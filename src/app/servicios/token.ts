@@ -58,6 +58,11 @@ export class TokenService {
 
   getNombre(): string {
     const decoded = this.decodeToken();
-    return decoded?.sub || '';
+    return decoded?.nombre || '';
+  }
+
+  getImagenUrl(): string {
+    const decoded = this.decodeToken();
+    return decoded?.urlFoto || '';
   }
 }

@@ -48,8 +48,29 @@ export class AtenderCita implements OnInit {
                 }, 1500);
             },
             error: (error) => {
-                this.errorMessage = error.error?.respuesta || 'Error al atender cita';
                 this.isLoading = false;
+                const errorMsg = error.error?.respuesta || 'Error al atender cita';
+                
+                // Verificar si el error es por fecha futura
+                if (errorMsg.includes('aún no ha llegado la fecha')) {
+                    // Extraer la fecha del mensaje de error
+                    const fechaMatch = errorMsg.match(/fecha: (.+)/);
+                    const fechaCita = fechaMatch ? fechaMatch[1] : 'la fecha programada';
+                    
+                    // Mostrar confirmación
+                    const confirmar = confirm(
+                        `Esta cita está programada para ${fechaCita}.\n\n` +
+                        `¿Desea atenderla de todos modos?`
+                    );
+                    
+                    if (confirmar) {
+                        // Reintentar con flag de forzar atención
+                        this.registro.forzarAtencion = true;
+                        this.atenderCita();
+                    }
+                } else {
+                    this.errorMessage = errorMsg;
+                }
             }
         });
     }

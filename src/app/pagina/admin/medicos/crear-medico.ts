@@ -7,6 +7,7 @@ import { ClinicaService } from '../../../servicios/clinica.service';
 import { RegistroMedicoDTO } from '../../../modelo/registro-medico-dto';
 import { Especialidad } from '../../../modelo/especialidad';
 import { Ciudad } from '../../../modelo/ciudad';
+import { ImagenService } from '../../../servicios/imagen.service';
 
 @Component({
   selector: 'app-crear-medico',
@@ -73,10 +74,13 @@ import { Ciudad } from '../../../modelo/ciudad';
               </div>
 
               <div class="form-group">
-                <label>URL Foto de Perfil</label>
+                <label>Foto de Perfil</label>
                 <div class="input-wrapper">
                   <i class="bi bi-image input-icon"></i>
-                  <input type="url" [(ngModel)]="medico.urlFoto" name="urlFoto" placeholder="https://..." />
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+                </div>
+                <div *ngIf="medico.urlFoto" class="mt-2">
+                  <img [src]="medico.urlFoto" alt="Vista previa" style="max-height: 100px; border-radius: 8px;">
                 </div>
               </div>
             </div>
@@ -107,6 +111,73 @@ import { Ciudad } from '../../../modelo/ciudad';
                   </select>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="form-section mt-4">
+            <h3 class="section-title"><i class="bi bi-clock-fill"></i> Horarios de Atención</h3>
+            
+            <div class="schedule-list" *ngIf="medico.horarios.length > 0">
+              <div class="schedule-item" *ngFor="let horario of medico.horarios; let i = index">
+                <div class="schedule-info">
+                  <span class="schedule-day">{{ getDiaNombre(horario.dia.codigo) }}</span>
+                  <span class="schedule-time">{{ horario.horaInicio }} - {{ horario.horaFin }}</span>
+                  <span class="schedule-duration">{{ horario.duracionMinutos }} min/cita</span>
+                </div>
+                <button type="button" (click)="eliminarHorario(i)" class="btn-remove">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="add-schedule-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Día de la semana</label>
+                  <div class="input-wrapper">
+                    <i class="bi bi-calendar input-icon"></i>
+                    <select [(ngModel)]="nuevoHorario.diaSeleccionado" name="diaHorario">
+                      <option value="">Seleccione un día...</option>
+                      <option value="1">Lunes</option>
+                      <option value="2">Martes</option>
+                      <option value="3">Miércoles</option>
+                      <option value="4">Jueves</option>
+                      <option value="5">Viernes</option>
+                      <option value="6">Sábado</option>
+                      <option value="7">Domingo</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Hora inicio</label>
+                  <div class="input-wrapper">
+                    <i class="bi bi-clock input-icon"></i>
+                    <input type="time" [(ngModel)]="nuevoHorario.horaInicio" name="horaInicio" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Hora fin</label>
+                  <div class="input-wrapper">
+                    <i class="bi bi-clock input-icon"></i>
+                    <input type="time" [(ngModel)]="nuevoHorario.horaFin" name="horaFin" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Duración por cita (minutos)</label>
+                  <div class="input-wrapper">
+                    <i class="bi bi-hourglass-split input-icon"></i>
+                    <input type="number" [(ngModel)]="nuevoHorario.duracionMinutos" name="duracionMinutos" 
+                           min="10" max="120" step="5" placeholder="20" />
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" (click)="agregarHorario()" class="btn-add-schedule">
+                <i class="bi bi-plus-circle"></i> Agregar Horario
+              </button>
             </div>
           </div>
 
@@ -267,6 +338,72 @@ import { Ciudad } from '../../../modelo/ciudad';
         border: 1px solid #DCFCE7;
       }
       .text-danger { color: #EF4444; }
+      
+      /* Schedule Management Styles */
+      .schedule-list {
+        margin-bottom: 1.5rem;
+      }
+      .schedule-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: #F8FAFC;
+        border: 1px solid var(--neutral-medium);
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+      }
+      .schedule-info {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      .schedule-day {
+        font-weight: 600;
+        color: var(--primary-blue);
+        min-width: 100px;
+      }
+      .schedule-time {
+        color: var(--text-secondary);
+      }
+      .schedule-duration {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+      .btn-remove {
+        background: #FEE2E2;
+        color: #EF4444;
+        border: none;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-remove:hover {
+        background: #FEF2F2;
+        transform: scale(1.05);
+      }
+      .add-schedule-form {
+        background: #F8FAFC;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px dashed var(--neutral-medium);
+      }
+      .btn-add-schedule {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        margin-top: 1rem;
+        transition: all 0.3s;
+      }
+      .btn-add-schedule:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
     `,
   ],
 })
@@ -281,13 +418,32 @@ export class CrearMedico implements OnInit {
   successMessage = '';
   isEditing = false;
   codigoMedico: number | null = null;
+  
+  // Schedule management
+  nuevoHorario = {
+    diaSeleccionado: '',
+    horaInicio: '',
+    horaFin: '',
+    duracionMinutos: 20
+  };
+  
+  diasSemana = [
+    { codigo: 1, nombre: 'Lunes' },
+    { codigo: 2, nombre: 'Martes' },
+    { codigo: 3, nombre: 'Miércoles' },
+    { codigo: 4, nombre: 'Jueves' },
+    { codigo: 5, nombre: 'Viernes' },
+    { codigo: 6, nombre: 'Sábado' },
+    { codigo: 7, nombre: 'Domingo' }
+  ];
 
   constructor(
     private adminService: AdministradorService,
     private clinicaService: ClinicaService,
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private imagenService: ImagenService
   ) {
     // Initialize default values for required fields
     this.medico.horarios = [];
@@ -344,21 +500,16 @@ export class CrearMedico implements OnInit {
           this.medico.urlFoto = data.urlFoto;
           this.medico.ciudad = data.ciudad;
           this.medico.especialidad = data.especialidad;
-          this.medico.horaInicio = data.horaInicio;
-          this.medico.horaFin = data.horaFin;
           this.medico.horarios = data.horarios || [];
-          // Note: Password is not returned, leave empty or handle separately
-
-          if (data.ciudad) {
-            this.ciudadSeleccionada = data.ciudad.codigo.toString();
-          }
-          if (data.especialidad) {
-            this.especialidadSeleccionada = data.especialidad.codigo.toString();
-          }
+          
+          // Set selected values for dropdowns
+          this.ciudadSeleccionada = data.ciudad?.codigo?.toString() || '';
+          this.especialidadSeleccionada = data.especialidad?.codigo?.toString() || '';
+          
+          // Trigger change detection to update UI
+          this.cd.detectChanges();
         }
         this.isLoading = false;
-        // Force change detection to update UI immediately
-        this.cd.detectChanges();
       },
       error: (error) => {
         this.errorMessage = 'Error al cargar datos del médico';
@@ -412,6 +563,8 @@ export class CrearMedico implements OnInit {
     if (!this.medico.horarios) this.medico.horarios = [];
     if (!this.medico.estadoMedico) this.medico.estadoMedico = { codigo: 1, nombre: 'ACTIVO' };
 
+    console.log('Datos del médico a enviar:', JSON.stringify(this.medico, null, 2));
+
     this.adminService.crearMedico(this.medico).subscribe({
       next: (response) => {
         this.successMessage = 'Médico creado exitosamente';
@@ -454,9 +607,7 @@ export class CrearMedico implements OnInit {
       ciudad: this.medico.ciudad,
       especialidad: this.medico.especialidad,
       urlFoto: this.medico.urlFoto,
-      horaInicio: this.medico.horaInicio || null,
-      horaFin: this.medico.horaFin || null,
-      // Note: horarios is not part of DetalleMedicoDTO, removed from update
+      horarios: this.medico.horarios
     };
 
     this.adminService.actualizarMedico(detalleDTO).subscribe({
@@ -483,7 +634,84 @@ export class CrearMedico implements OnInit {
     });
   }
 
+  agregarHorario(): void {
+    if (!this.nuevoHorario.diaSeleccionado || !this.nuevoHorario.horaInicio || 
+        !this.nuevoHorario.horaFin || !this.nuevoHorario.duracionMinutos) {
+      this.errorMessage = 'Por favor complete todos los campos del horario';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    if (this.nuevoHorario.horaInicio >= this.nuevoHorario.horaFin) {
+      this.errorMessage = 'La hora de inicio debe ser menor que la hora de fin';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    // Check if schedule for this day already exists
+    const diaExiste = this.medico.horarios.some(h => h.dia.codigo === parseInt(this.nuevoHorario.diaSeleccionado));
+    if (diaExiste) {
+      this.errorMessage = 'Ya existe un horario para este día';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    const dia = this.diasSemana.find(d => d.codigo === parseInt(this.nuevoHorario.diaSeleccionado));
+    if (dia) {
+      this.medico.horarios.push({
+        dia: { codigo: dia.codigo, nombre: dia.nombre },
+        horaInicio: this.nuevoHorario.horaInicio,
+        horaFin: this.nuevoHorario.horaFin,
+        duracionMinutos: this.nuevoHorario.duracionMinutos
+      });
+      
+      // Reset form
+      this.resetNuevoHorario();
+      this.successMessage = 'Horario agregado exitosamente';
+      setTimeout(() => this.successMessage = '', 2000);
+    }
+  }
+
+  eliminarHorario(index: number): void {
+    this.medico.horarios.splice(index, 1);
+  }
+
+  getDiaNombre(codigoDia: number): string {
+    const dia = this.diasSemana.find(d => d.codigo === codigoDia);
+    return dia ? dia.nombre : '';
+  }
+
+  resetNuevoHorario(): void {
+    this.nuevoHorario = {
+      diaSeleccionado: '',
+      horaInicio: '',
+      horaFin: '',
+      duracionMinutos: 20
+    };
+  }
+
   cancelar(): void {
     this.router.navigate(['/admin/medicos']);
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.isLoading = true;
+      this.imagenService.subir(file).subscribe({
+        next: (response) => {
+          if (response.respuesta) {
+            this.medico.urlFoto = response.respuesta.url;
+            this.successMessage = 'Imagen subida exitosamente';
+            setTimeout(() => this.successMessage = '', 2000);
+          }
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al subir la imagen';
+          this.isLoading = false;
+        }
+      });
+    }
   }
 }

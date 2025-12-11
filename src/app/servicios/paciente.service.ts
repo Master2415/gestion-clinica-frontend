@@ -56,4 +56,8 @@ export class PacienteService {
   public responderPQRS(respuesta: any): Observable<MensajeDTO<string>> {
     return this.http.post<MensajeDTO<string>>(`${this.pacienteURL}/responder-pqrs`, respuesta);
   }
+
+  public obtenerHorariosDisponibles(codigoMedico: number, fecha: string): Observable<MensajeDTO<any[]>> {
+    return this.http.get<MensajeDTO<any[]>>(`${this.pacienteURL}/horarios-disponibles/${codigoMedico}?fecha=${fecha}`);
+  }
 }

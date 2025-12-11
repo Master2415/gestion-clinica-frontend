@@ -8,4 +8,5 @@ export class ItemMedicoDTO {
     telefono: string = '';
     correo: string = '';
     urlFoto: string = '';
+    diasAtencion: string[] = [];
 }

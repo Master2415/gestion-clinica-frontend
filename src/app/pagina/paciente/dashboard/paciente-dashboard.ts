@@ -9,12 +9,14 @@ import { TokenService } from '../../../servicios/token';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './paciente-dashboard.html',
-  styleUrls: ['./paciente-dashboard.css']
+  styleUrls: ['./paciente-dashboard.css'],
 })
 export class PacienteDashboard implements OnInit {
   totalCitas = 0;
   citasPendientes = 0;
   registrosMedicos = 0;
+  totalPqrs = 0;
+  pqrsEnProceso = 0;
   isLoading = true;
   codigoPaciente = 0;
   userName = '';
@@ -41,13 +43,14 @@ export class PacienteDashboard implements OnInit {
       next: (response) => {
         if (response.respuesta) {
           this.totalCitas = response.respuesta.length;
+          // Filtrar por estado PROGRAMADA (el estado correcto en la base de datos)
           this.citasPendientes = response.respuesta.filter(
-            c => c.estadoCita?.estado?.toLowerCase() === 'pendiente'
+            (c) => c.estadoCita?.estado?.toLowerCase() === 'programada'
           ).length;
         }
         this.cd.detectChanges();
       },
-      error: (error) => console.error('Error loading appointments:', error)
+      error: (error) => console.error('Error loading appointments:', error),
     });
 
     // Load medical history
@@ -56,11 +59,29 @@ export class PacienteDashboard implements OnInit {
         if (response.respuesta) {
           this.registrosMedicos = response.respuesta.length;
         }
-        this.isLoading = false;
         this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading medical history:', error);
+        this.cd.detectChanges();
+      },
+    });
+
+    // Load PQRS for notifications
+    this.pacienteService.listarPqrsPaciente(this.codigoPaciente).subscribe({
+      next: (response) => {
+        if (response.respuesta) {
+          this.totalPqrs = response.respuesta.length;
+          // Count PQRS in EN_PROCESO state (with admin responses)
+          this.pqrsEnProceso = response.respuesta.filter(
+            p => p.estado?.toLowerCase() === 'en_proceso'
+          ).length;
+        }
+        this.isLoading = false;
+        this.cd.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading PQRS:', error);
         this.isLoading = false;
         this.cd.detectChanges();
       }

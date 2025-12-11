@@ -1,5 +1,4 @@
 <div class="landing-page d-flex flex-column min-vh-100">
-  
   <!-- Header -->
   <header class="header">
     <div class="container">
@@ -8,7 +7,7 @@
           <i class="bi bi-hospital-fill"></i>
           <span class="logo-text">Clínica <strong>Master</strong></span>
         </a>
-        
+
         <nav class="nav-desktop">
           <a routerLink="/inicio" class="nav-link">Volver al Inicio</a>
           <a routerLink="/login" class="btn-login-header">
@@ -22,160 +21,262 @@
 
   <!-- Main Content -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 bg-light">
-    <div class="card shadow-lg border-0" style="max-width: 800px; width: 100%;">
-        <div class="card-header bg-primary text-white text-center py-4">
-            <h2 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Registro de Paciente</h2>
-            <p class="mb-0 mt-2 opacity-75">Únete a nuestra comunidad de salud</p>
-        </div>
+    <div class="card shadow-lg border-0" style="max-width: 800px; width: 100%">
+      <div class="card-header bg-primary text-white text-center py-4">
+        <h2 class="mb-0 fw-bold">
+          <i class="bi bi-person-plus-fill me-2"></i>Registro de Paciente
+        </h2>
+        <p class="mb-0 mt-2 opacity-75">Únete a nuestra comunidad de salud</p>
+      </div>
 
-        <div class="card-body p-4 p-md-5">
-            <form (ngSubmit)="registrar()" #registroForm="ngForm" class="needs-validation">
+      <div class="card-body p-4 p-md-5">
+        <form (ngSubmit)="registrar()" #registroForm="ngForm" class="needs-validation">
+          <!-- Información Personal -->
+          <h5 class="text-primary mb-4 border-bottom pb-2">Información Personal</h5>
 
-                <!-- Información Personal -->
-                <h5 class="text-primary mb-4 border-bottom pb-2">Información Personal</h5>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="cedula" class="form-label"
+                >Cédula <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cedula"
+                  name="cedula"
+                  [(ngModel)]="paciente.cedula"
+                  required
+                  maxlength="10"
+                  placeholder="Ej: 1094857123"
+                />
+              </div>
+              <div class="form-text">Máximo 10 caracteres</div>
+            </div>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <label for="cedula" class="form-label">Cédula <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
-                            <input type="text" class="form-control" id="cedula" name="cedula"
-                                [(ngModel)]="paciente.cedula" required maxlength="10" placeholder="Ej: 1094857123">
-                        </div>
-                        <div class="form-text">Máximo 10 caracteres</div>
-                    </div>
+            <div class="col-md-6">
+              <label for="nombre" class="form-label"
+                >Nombre Completo <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  name="nombre"
+                  [(ngModel)]="paciente.nombre"
+                  required
+                  maxlength="30"
+                  placeholder="Ej: Juan Pérez"
+                />
+              </div>
+            </div>
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre Completo <span
-                                class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" class="form-control" id="nombre" name="nombre"
-                                [(ngModel)]="paciente.nombre" required maxlength="30" placeholder="Ej: Juan Pérez">
-                        </div>
-                    </div>
-                </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="fechaNacimiento" class="form-label"
+                >Fecha de Nacimiento <span class="text-danger">*</span></label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="fechaNacimiento"
+                name="fechaNacimiento"
+                [(ngModel)]="paciente.fechaNacimiento"
+                required
+              />
+            </div>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento <span
-                                class="text-danger">*</span></label>
-                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento"
-                            [(ngModel)]="paciente.fechaNacimiento" required>
-                    </div>
+            <div class="col-md-6">
+              <label for="celular" class="form-label"
+                >Teléfono / Celular <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="celular"
+                  name="celular"
+                  [(ngModel)]="paciente.celular"
+                  required
+                  maxlength="20"
+                  placeholder="Ej: 3111234567"
+                />
+              </div>
+            </div>
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="celular" class="form-label">Teléfono / Celular <span
-                                class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                            <input type="text" class="form-control" id="celular" name="celular"
-                                [(ngModel)]="paciente.celular" required maxlength="20" placeholder="Ej: 3111234567">
-                        </div>
-                    </div>
-                </div>
+          <!-- Información Médica -->
+          <h5 class="text-primary mb-4 mt-4 border-bottom pb-2">Información Médica y Ubicación</h5>
 
-                <!-- Información Médica -->
-                <h5 class="text-primary mb-4 mt-4 border-bottom pb-2">Información Médica y Ubicación</h5>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="ciudad" class="form-label"
+                >Ciudad de Residencia <span class="text-danger">*</span></label
+              >
+              <select
+                class="form-select"
+                id="ciudad"
+                name="ciudad"
+                (change)="onCiudadChange($event)"
+                required
+              >
+                <option value="0" selected>Seleccione una ciudad...</option>
+                <option *ngFor="let ciudad of ciudades" [value]="ciudad.codigo">
+                  {{ ciudad.nombre }}
+                </option>
+              </select>
+              <div class="form-text text-muted" *ngIf="ciudades.length === 0">
+                <i class="bi bi-info-circle me-1"></i>Cargando ciudades...
+              </div>
+            </div>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <label for="ciudad" class="form-label">Ciudad de Residencia <span
-                                class="text-danger">*</span></label>
-                        <select class="form-select" id="ciudad" name="ciudad" (change)="onCiudadChange($event)"
-                            required>
-                            <option value="0" selected>Seleccione una ciudad...</option>
-                            <option *ngFor="let ciudad of ciudades" [value]="ciudad.codigo">
-                                {{ ciudad.nombre }}
-                            </option>
-                        </select>
-                        <div class="form-text text-muted" *ngIf="ciudades.length === 0">
-                            <i class="bi bi-info-circle me-1"></i>Cargando ciudades...
-                        </div>
-                    </div>
+            <div class="col-md-6">
+              <label for="tipoSangre" class="form-label">Tipo de Sangre</label>
+              <select
+                class="form-select"
+                id="tipoSangre"
+                name="tipoSangre"
+                (change)="onTipoSangreChange($event)"
+              >
+                <option value="0" selected>Seleccione tipo de sangre...</option>
+                <option *ngFor="let tipo of tiposSangre" [value]="tipo.codigo">
+                  {{ tipo.nombre }}
+                </option>
+              </select>
+              <div class="form-text text-muted" *ngIf="tiposSangre.length === 0">
+                <i class="bi bi-info-circle me-1"></i>Cargando tipos de sangre...
+              </div>
+            </div>
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="tipoSangre" class="form-label">Tipo de Sangre</label>
-                        <select class="form-select" id="tipoSangre" name="tipoSangre"
-                            (change)="onTipoSangreChange($event)">
-                            <option value="0" selected>Seleccione tipo de sangre...</option>
-                            <option *ngFor="let tipo of tiposSangre" [value]="tipo.codigo">
-                                {{ tipo.nombre }}
-                            </option>
-                        </select>
-                         <div class="form-text text-muted" *ngIf="tiposSangre.length === 0">
-                            <i class="bi bi-info-circle me-1"></i>Cargando tipos de sangre...
-                        </div>
-                    </div>
-                </div>
+          <div class="mb-3">
+            <label for="alergias" class="form-label"
+              >Alergias <span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="alergias"
+              name="alergias"
+              [(ngModel)]="paciente.alergias"
+              required
+              rows="2"
+              placeholder="Describa sus alergias o escriba 'Ninguna'"
+            ></textarea>
+          </div>
 
-                <div class="mb-3">
-                    <label for="alergias" class="form-label">Alergias <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="alergias" name="alergias" [(ngModel)]="paciente.alergias"
-                        required rows="2" placeholder="Describa sus alergias o escriba 'Ninguna'"></textarea>
-                </div>
+          <!-- Cuenta de Usuario -->
+          <h5 class="text-primary mb-4 mt-4 border-bottom pb-2">Datos de Cuenta</h5>
 
-                <!-- Cuenta de Usuario -->
-                <h5 class="text-primary mb-4 mt-4 border-bottom pb-2">Datos de Cuenta</h5>
+          <div class="mb-3">
+            <label for="urlFoto" class="form-label"
+              >Foto de Perfil <span class="text-danger">*</span></label
+            >
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-image"></i></span>
+              <input
+                type="file"
+                class="form-control"
+                id="urlFoto"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                required
+              />
+            </div>
+            <div *ngIf="paciente.urlFoto" class="mt-2">
+              <img
+                [src]="paciente.urlFoto"
+                alt="Vista previa"
+                style="max-height: 100px; border-radius: 8px"
+              />
+            </div>
+          </div>
 
-                <div class="mb-3">
-                    <label for="urlFoto" class="form-label">Foto de Perfil (URL) <span
-                            class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-image"></i></span>
-                        <input type="text" class="form-control" id="urlFoto" name="urlFoto"
-                            [(ngModel)]="paciente.urlFoto" required placeholder="https://ejemplo.com/foto.jpg">
-                    </div>
-                </div>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="correo" class="form-label"
+                >Correo Electrónico <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="correo"
+                  name="correo"
+                  [(ngModel)]="paciente.correo"
+                  required
+                  email
+                  placeholder="nombre@correo.com"
+                />
+              </div>
+            </div>
 
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <label for="correo" class="form-label">Correo Electrónico <span
-                                class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" class="form-control" id="correo" name="correo"
-                                [(ngModel)]="paciente.correo" required email placeholder="nombre@correo.com">
-                        </div>
-                    </div>
+            <div class="col-md-6">
+              <label for="contrasena" class="form-label"
+                >Contraseña <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="contrasena"
+                  name="contrasena"
+                  [(ngModel)]="paciente.contrasena"
+                  required
+                  placeholder="********"
+                />
+              </div>
+            </div>
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="contrasena" class="form-label">Contraseña <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" class="form-control" id="contrasena" name="contrasena"
-                                [(ngModel)]="paciente.contrasena" required placeholder="********">
-                        </div>
-                    </div>
-                </div>
+          <!-- Mensajes de Estado -->
+          <div
+            class="alert alert-danger d-flex align-items-center"
+            role="alert"
+            *ngIf="errorMessage"
+          >
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>{{ errorMessage }}</div>
+          </div>
 
-                <!-- Mensajes de Estado -->
-                <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="errorMessage">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>{{ errorMessage }}</div>
-                </div>
+          <div
+            class="alert alert-success d-flex align-items-center"
+            role="alert"
+            *ngIf="successMessage"
+          >
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <div>{{ successMessage }}</div>
+          </div>
 
-                <div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="successMessage">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <div>{{ successMessage }}</div>
-                </div>
+          <!-- Botones -->
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg fw-bold" [disabled]="isLoading">
+              <span
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              {{ isLoading ? 'Registrando...' : 'Crear Cuenta' }}
+            </button>
+          </div>
 
-                <!-- Botones -->
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg fw-bold" [disabled]="isLoading">
-                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"
-                            aria-hidden="true"></span>
-                        {{ isLoading ? 'Registrando...' : 'Crear Cuenta' }}
-                    </button>
-                </div>
-
-                <div class="text-center mt-4">
-                    <p class="mb-0">¿Ya tienes una cuenta? <a routerLink="/login"
-                            class="text-primary fw-bold text-decoration-none">Inicia sesión aquí</a></p>
-                </div>
-
-            </form>
-        </div>
+          <div class="text-center mt-4">
+            <p class="mb-0">
+              ¿Ya tienes una cuenta?
+              <a routerLink="/login" class="text-primary fw-bold text-decoration-none"
+                >Inicia sesión aquí</a
+              >
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   </main>
 
@@ -189,7 +290,8 @@
             <span>Clínica <strong>Master</strong></span>
           </div>
           <p class="footer-description">
-            Comprometidos con tu salud y bienestar. Atención médica de calidad con tecnología de punta.
+            Comprometidos con tu salud y bienestar. Atención médica de calidad con tecnología de
+            punta.
           </p>
         </div>
 
@@ -221,7 +323,8 @@
           </div>
           <p class="github-text">
             <i class="bi bi-code-slash"></i>
-            Desarrollado por <a href="https://github.com/master2415" target="_blank"><strong>master2415</strong></a>
+            Desarrollado por
+            <a href="https://github.com/master2415" target="_blank"><strong>master2415</strong></a>
           </p>
         </div>
       </div>
@@ -231,5 +334,4 @@
       </div>
     </div>
   </footer>
-
 </div>

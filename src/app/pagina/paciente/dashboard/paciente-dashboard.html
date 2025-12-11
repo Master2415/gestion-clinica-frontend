@@ -6,7 +6,7 @@
     </div>
     <div class="date-badge">
       <i class="bi bi-calendar-day"></i>
-      <span>{{ today | date:'fullDate' }}</span>
+      <span>{{ today | date : 'fullDate' }}</span>
     </div>
   </div>
 
@@ -45,6 +45,17 @@
       <div class="stat-info">
         <span class="stat-value">{{ registrosMedicos }}</span>
         <span class="stat-label">Historial</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="navigateTo('mis-pqrs')">
+      <div class="stat-icon-wrapper green">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notification-badge" *ngIf="pqrsEnProceso > 0">{{ pqrsEnProceso }}</span>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalPqrs }}</span>
+        <span class="stat-label">Mis PQRS</span>
       </div>
     </div>
   </div>

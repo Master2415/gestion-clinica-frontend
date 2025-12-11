@@ -38,6 +38,7 @@
             <i class="bi bi-person-badge input-icon"></i>
             <select
               [(ngModel)]="agendarCitaDTO.codigoMedico"
+              (change)="onMedicoChange()"
               name="medico"
               class="form-control"
               required
@@ -51,18 +52,70 @@
           </div>
         </div>
 
+        <!-- Información de horarios del médico -->
+        <div *ngIf="medicoSeleccionado" class="doctor-schedule-info">
+          <h4><i class="bi bi-calendar-week"></i> Días de atención</h4>
+          <div class="schedule-days">
+            <span *ngFor="let dia of diasAtencion" class="day-badge">
+              {{ dia }}
+            </span>
+          </div>
+          <p class="schedule-note">
+            <i class="bi bi-info-circle"></i>
+            Seleccione una fecha para ver los horarios disponibles
+          </p>
+        </div>
+
         <div class="form-group">
-          <label>Fecha y Hora</label>
+          <label>Fecha</label>
           <div class="input-wrapper">
             <i class="bi bi-calendar-event input-icon"></i>
             <input
-              type="datetime-local"
-              [(ngModel)]="agendarCitaDTO.fecha"
+              type="date"
+              [(ngModel)]="fechaSeleccionada"
+              (change)="cargarHorariosDisponibles()"
               name="fecha"
               class="form-control"
+              [disabled]="!agendarCitaDTO.codigoMedico"
               required
             />
           </div>
+          <small *ngIf="!agendarCitaDTO.codigoMedico" class="text-muted">
+            Primero seleccione un médico
+          </small>
+        </div>
+
+        <div class="form-group" *ngIf="horariosDisponibles.length > 0">
+          <label>Horarios Disponibles</label>
+          <div class="slots-container">
+            <button
+              type="button"
+              *ngFor="let slot of horariosDisponibles"
+              class="slot-button"
+              [class.selected]="agendarCitaDTO.fecha === slot.fechaHora"
+              (click)="seleccionarHorario(slot)"
+            >
+              {{ formatearHora(slot.fechaHora) }}
+              <span class="duration">({{ slot.duracionMinutos }} min)</span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="
+            fechaSeleccionada &&
+            agendarCitaDTO.codigoMedico &&
+            horariosDisponibles.length === 0 &&
+            !isLoadingSlots
+          "
+          class="alert alert-info"
+        >
+          <i class="bi bi-info-circle"></i> No hay horarios disponibles para esta fecha
+        </div>
+
+        <div *ngIf="isLoadingSlots" class="loading-slots">
+          <div class="spinner-border spinner-border-sm"></div>
+          Cargando horarios...
         </div>
       </div>
 
@@ -86,9 +139,7 @@
           <div class="spinner-border spinner-border-sm" *ngIf="isLoading" role="status">
             <span class="visually-hidden">Cargando...</span>
           </div>
-          <span *ngIf="!isLoading">
-            <i class="bi bi-calendar-check"></i> Confirmar Cita
-          </span>
+          <span *ngIf="!isLoading"> <i class="bi bi-calendar-check"></i> Confirmar Cita </span>
         </button>
       </div>
     </form>
