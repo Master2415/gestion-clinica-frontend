@@ -1,59 +1,146 @@
-# MyApp
+# Proyecto Clínica
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bienvenido a **Proyecto Clínica**, una plataforma integral diseñada para modernizar y optimizar la gestión de servicios médicos. Este sistema conecta a pacientes, médicos y administradores en un entorno digital eficiente, seguro y fácil de usar.
 
-## Development server
+## ¿Qué soluciona?
 
-To start a local development server, run:
+Este proyecto aborda la necesidad de centralizar y agilizar los procesos clínicos tradicionales. Soluciona problemas comunes como:
 
-```bash
-ng serve
-```
+- **Gestión de Citas**: Elimina la complejidad de agendar citas telefónicamente, permitiendo a los pacientes autogestionar su agenda.
+- **Historial Clínico**: Digitaliza los registros médicos para que estén disponibles de forma segura y al instante para los doctores durante las consultas.
+- **Atención al Usuario (PQRS)**: Proporciona un canal directo y transparente para que los pacientes radiquen peticiones, quejas, reclamos o sugerencias.
+- **Administración de Recursos**: Facilita a los administradores la gestión del personal médico y el monitoreo del funcionamiento de la clínica.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Tecnologías Utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+El proyecto está construido con una arquitectura moderna y escalable, separando el frontend del backend para asegurar flexibilidad y rendimiento.
 
-```bash
-ng generate component component-name
-```
+### Backend (Servidor)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+El núcleo del sistema es robusto y seguro, encargado de la lógica de negocio y la persistencia de datos.
 
-```bash
-ng generate --help
-```
+- **Lenguaje**: Java 17+
+- **Framework**: Spring Boot 3 (Web, Data JPA, Validation, Security, Mail)
+- **Base de Datos**: MySQL / PostgreSQL
+- **Autenticación**: JSON Web Tokens (JWT)
+- **Almacenamiento de Imágenes**: Cloudinary
+- **Herramientas de Construcción**: Gradle
+- **Testing**: JUnit 5, Mockito
 
-## Building
+### Frontend (Cliente)
 
-To build the project run:
+Una interfaz de usuario dinámica y responsiva construida como una Single Page Application (SPA).
 
-```bash
-ng build
-```
+- **Framework**: Angular 16+
+- **Lenguaje**: TypeScript
+- **Estilos**: CSS Moderno / Diseño Responsivo
+- **Ruteo**: Angular Router con Guards para protección de rutas
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Recorrido de la Aplicación
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+La plataforma ofrece experiencias personalizadas según el rol del usuario:
 
-```bash
-ng test
-```
+### 1. Usuario Visitante (No Registrado)
 
-## Running end-to-end tests
+- **Página de Inicio**: Vista general de la clínica y sus servicios.
+- **Registro**: Formulario para que nuevos pacientes creen su cuenta.
+- **Login**: Acceso seguro para todos los roles (Paciente, Médico, Admin).
 
-For end-to-end (e2e) testing, run:
+### 2. Paciente
 
-```bash
-ng e2e
-```
+Una vez autenticado, el paciente accede a su panel personal:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- **Dashboard**: Resumen de sus próximas actividades.
+- **Agendar Cita**: Selección de especialidad, médico y horario disponible.
+- **Mis Citas**: Listado de citas programadas con opción de cancelación.
+- **Historial Médico**: Consulta de atenciones pasadas y diagnósticos.
+- **PQRS**: Módulo para crear y dar seguimiento a solicitudes o quejas.
 
-## Additional Resources
+### 3. Médico
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Los doctores cuentan con herramientas para gestionar su día a día:
+
+- **Agenda**: Visualización de su horario y citas programadas.
+- **Atención de Citas**: Interfaz para realizar la consulta, registrar síntomas, diagnóstico y tratamiento.
+- **Historial de Pacientes**: Acceso a la información clínica de los pacientes que atiende.
+- **Días Libres**: Gestión de su disponibilidad.
+
+### 4. Administrador
+
+El rol encargado del control total del sistema:
+
+- **Gestión de Médicos**: Registrar, editar o eliminar perfiles médicos.
+- **Gestión de Citas**: Supervisión global de la agenda de la clínica.
+- **Gestión de PQRS**: Revisión y respuesta a las solicitudes de los pacientes.
+
+---
+
+## Estructura del Proyecto
+
+El repositorio está organizado en dos directorios principales:
+
+- \`backend-clinica/\`: Código fuente del servidor Spring Boot.
+- \`frontend-clinica/my-app/\`: Código fuente de la aplicación Angular.
+
+## Cómo Iniciar
+
+### Prerrequisitos
+
+- Java JDK 17+
+- Node.js y NPM
+- MySQL o PostgreSQL instalado y corriendo
+
+### Backend
+
+1. Navega a \`backend-clinica\`.
+2. Configura las credenciales de base de datos en \`application.properties\`.
+3. Ejecuta: \`./gradlew bootRun\`
+
+### Frontend
+
+1. Navega a `frontend-clinica/my-app`.
+2. Instala dependencias: `npm install`.
+3. Inicia el servidor de desarrollo: `ng serve`.
+4. Abre tu navegador en `http://localhost:4200`.
+
+## Capturas de Pantalla
+
+### General
+
+|                                Inicio                                 |                           Login                           |
+| :-------------------------------------------------------------------: | :-------------------------------------------------------: |
+| ![Inicio](frontend-clinica/my-app/public/Images/Pgina_principal2.png) | ![Login](frontend-clinica/my-app/public/Images/Login.png) |
+
+|                                      Registro                                       |
+| :---------------------------------------------------------------------------------: |
+| ![Registro](frontend-clinica/my-app/public/Images/Formulario_registro_paciente.png) |
+
+### Paciente
+
+|                          Panel Principal                           |                                Agendar Cita                                 |
+| :----------------------------------------------------------------: | :-------------------------------------------------------------------------: |
+| ![Panel](frontend-clinica/my-app/public/Images/Panel_paciente.png) | ![Agendar](frontend-clinica/my-app/public/Images/Agendar_cita_paciente.png) |
+
+|                             Mis Citas                              |                                 Historial Médico                                 |
+| :----------------------------------------------------------------: | :------------------------------------------------------------------------------: |
+| ![Citas](frontend-clinica/my-app/public/Images/Citas_paciente.png) | ![Historial](frontend-clinica/my-app/public/Images/HistorialMedico_paciente.png) |
+
+|                               PQRS                               |                             Crear PQRS                              |
+| :--------------------------------------------------------------: | :-----------------------------------------------------------------: |
+| ![PQRS](frontend-clinica/my-app/public/Images/pqrs_paciente.png) | ![Crear PQRS](frontend-clinica/my-app/public/Images/crear_pqrs.png) |
+
+### Médico
+
+|                           Portal Médico                            |                                      Atenciones                                      |
+| :----------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
+| ![Portal](frontend-clinica/my-app/public/Images/Portal_medico.png) | ![Atenciones](frontend-clinica/my-app/public/Images/AtencionesRealizadas_medico.png) |
+
+### Administrador
+
+|                              Panel Admin                              |                             Lista de Médicos                              |
+| :-------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
+| ![Panel Admin](frontend-clinica/my-app/public/Images/Panel_admin.png) | ![Lista Médicos](frontend-clinica/my-app/public/Images/lista_medicos.png) |
