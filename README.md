@@ -111,36 +111,36 @@ El repositorio está organizado en dos directorios principales:
 
 ### General
 
-|                                Inicio                                 |                           Login                           |
-| :-------------------------------------------------------------------: | :-------------------------------------------------------: |
-| ![Inicio](frontend-clinica/my-app/public/Images/Pgina_principal2.png) | ![Login](frontend-clinica/my-app/public/Images/Login.png) |
+|                    Inicio                     |               Login               |
+| :-------------------------------------------: | :-------------------------------: |
+| ![Inicio](public/Images/Pgina_principal2.png) | ![Login](public/Images/Login.png) |
 
-|                                      Registro                                       |
-| :---------------------------------------------------------------------------------: |
-| ![Registro](frontend-clinica/my-app/public/Images/Formulario_registro_paciente.png) |
+|                          Registro                           |
+| :---------------------------------------------------------: |
+| ![Registro](public/Images/Formulario_registro_paciente.png) |
 
 ### Paciente
 
-|                          Panel Principal                           |                                Agendar Cita                                 |
-| :----------------------------------------------------------------: | :-------------------------------------------------------------------------: |
-| ![Panel](frontend-clinica/my-app/public/Images/Panel_paciente.png) | ![Agendar](frontend-clinica/my-app/public/Images/Agendar_cita_paciente.png) |
+|              Panel Principal               |                    Agendar Cita                     |
+| :----------------------------------------: | :-------------------------------------------------: |
+| ![Panel](public/Images/Panel_paciente.png) | ![Agendar](public/Images/Agendar_cita_paciente.png) |
 
-|                             Mis Citas                              |                                 Historial Médico                                 |
-| :----------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-| ![Citas](frontend-clinica/my-app/public/Images/Citas_paciente.png) | ![Historial](frontend-clinica/my-app/public/Images/HistorialMedico_paciente.png) |
+|                 Mis Citas                  |                     Historial Médico                     |
+| :----------------------------------------: | :------------------------------------------------------: |
+| ![Citas](public/Images/Citas_paciente.png) | ![Historial](public/Images/HistorialMedico_paciente.png) |
 
-|                               PQRS                               |                             Crear PQRS                              |
-| :--------------------------------------------------------------: | :-----------------------------------------------------------------: |
-| ![PQRS](frontend-clinica/my-app/public/Images/pqrs_paciente.png) | ![Crear PQRS](frontend-clinica/my-app/public/Images/crear_pqrs.png) |
+|                   PQRS                   |                 Crear PQRS                  |
+| :--------------------------------------: | :-----------------------------------------: |
+| ![PQRS](public/Images/pqrs_paciente.png) | ![Crear PQRS](public/Images/crear_pqrs.png) |
 
 ### Médico
 
-|                           Portal Médico                            |                                      Atenciones                                      |
-| :----------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
-| ![Portal](frontend-clinica/my-app/public/Images/Portal_medico.png) | ![Atenciones](frontend-clinica/my-app/public/Images/AtencionesRealizadas_medico.png) |
+|               Portal Médico                |                          Atenciones                          |
+| :----------------------------------------: | :----------------------------------------------------------: |
+| ![Portal](public/Images/Portal_medico.png) | ![Atenciones](public/Images/AtencionesRealizadas_medico.png) |
 
 ### Administrador
 
-|                              Panel Admin                              |                             Lista de Médicos                              |
-| :-------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-| ![Panel Admin](frontend-clinica/my-app/public/Images/Panel_admin.png) | ![Lista Médicos](frontend-clinica/my-app/public/Images/lista_medicos.png) |
+|                  Panel Admin                  |                 Lista de Médicos                  |
+| :-------------------------------------------: | :-----------------------------------------------: |
+| ![Panel Admin](public/Images/Panel_admin.png) | ![Lista Médicos](public/Images/lista_medicos.png) |
