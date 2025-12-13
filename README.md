@@ -2,6 +2,8 @@
 
 Bienvenido a **Proyecto Clínica**, una plataforma integral diseñada para modernizar y optimizar la gestión de servicios médicos. Este sistema conecta a pacientes, médicos y administradores en un entorno digital eficiente, seguro y fácil de usar.
 
+Puedes ver una guía completa del funcionamiento del proyecto en el siguiente video: [Ver Video Guía](https://youtu.be/ZFpoPzjdSp0)
+
 ## ¿Qué soluciona?
 
 Este proyecto aborda la necesidad de centralizar y agilizar los procesos clínicos tradicionales. Soluciona problemas comunes como:
